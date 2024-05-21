@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NutritionistService } from 'src/app/Services/nutritionist.service';
 
 @Component({
   selector: 'app-manage-patients',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class ManagePatientsComponent {
 
+  constructor(
+    private nutriService: NutritionistService
+  ) { }
+
+  ngOnInit() {
+    this.getPatients()
+  }
+
+  getPatients() {
+    this.nutriService.getPatients().pipe().
+      subscribe((data: any) => {
+        console.log(data)
+      })
+  }
 }

@@ -1,0 +1,55 @@
+<!-- <button type="button" class="btn btn-danger" (click)="logOut()">    
+            Cerrar sesión
+        </button> -->
+<nav class="navbar border-bottom border-body fixed-top" style="
+        background-color: #003d1e;
+        color: #fff;
+    " data-bs-theme="dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashBoard"
+            aria-controls="dashBoard" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <h4 class="navbar-brand"> Won</h4>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="dashBoard" aria-labelledby="dashBoardLabel"
+            style="background-color: #003d1e; color: #fff; ">
+            <div class="offcanvas-header">
+                <div class="row justify-content-center">
+                    <div class="col col-2">
+                        <button type="button" class="btn btn-outline-secondary" style="
+                            --bs-btn-color: #fff;
+                            --bs-btn-hover-bg: #076c39;
+                            --bs-btn-hover-border-color: #fff;
+                            --bs-btn-font-size: 1rem;
+                            --bs-btn-padding-y: .4rem; 
+                            --bs-btn-padding-x: .6rem;
+                        " (click)="logOut()">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </div>
+                    <div class="col col-8">
+                        <h4 class="offcanvas-title" id="dashBoardLabel">weon2</h4>
+                    </div>
+                    <div class="col col-2">
+                        <button type="button" class="btn-close" style="
+                        --bs-btn-color: #fff;
+                        --bs-btn-hover-bg: #000000;
+                        --bs-btn-hover-border-color: #fff;
+                        --bs-btn-font-size: 1rem;
+                        --bs-btn-padding-y: .4rem; 
+                        --bs-btn-padding-x: .6rem;
+                    " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="offcanvas-body fs-5">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li *ngFor="let item of urls" class="nav-item">
+                        <a routerLink="{{item.url}}" class="nav-link" type="button" data-bs-dismiss="offcanvas">{{
+                            item.nombre}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -30,6 +30,7 @@ export class LoginComponent {
       const infoLogin: authInfo = this.formLogin.value
       this.authService.login(infoLogin).pipe().subscribe((data: authToken) => {
         this.authService.setToken(data.token)
+        this.authService.setRole(data.role)
         this.router.navigate(['dash-board'])
       })
     }

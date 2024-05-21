@@ -9,6 +9,8 @@ import { NutritionistService } from 'src/app/Services/nutritionist.service';
   styleUrls: ['./screen-controller.component.css']
 })
 export class ScreenControllerComponent {
+  urls: { nombre: string, url: string }[] = [];
+  mainScreen: string = ''
 
   constructor(
     private authService: AuthServiceService,
@@ -16,7 +18,8 @@ export class ScreenControllerComponent {
   ) { }
 
   ngOnInit() {
-
+    this.getRole()
+    this.router.navigate([this.mainScreen])
   }
 
   logout() {
@@ -27,7 +30,10 @@ export class ScreenControllerComponent {
   getRole() {
     const role = this.authService.getRole()
     if (role == 'NUTRITIONIST' || role == 'NUTRITIONIST_ADMIN') {
-      this.router.navigate(['dash-board/nutritionist'])
+      this.mainScreen = '/dash-board/nutritionist'
+      this.urls = [
+        { nombre: 'Pacientes', url: '/dash-board/nutritionist' },
+      ]
     }
   }
 }

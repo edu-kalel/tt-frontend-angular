@@ -11,15 +11,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { ScreenControllerComponent } from './dash-board/screen-controller/screen-controller.component';
 import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
-import { NutritionistComponent } from './dash-board/nutritionist/nutritionist';
+import { NutritionistComponent } from './dash-board/nutritionist/nutritionist.component';
+import { NavBarComponent } from './dash-board/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ScreenControllerComponent,
+    NutritionistComponent,
     ManagePatientsComponent,
-    NutritionistComponent
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

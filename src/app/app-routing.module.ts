@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ScreenControllerComponent } from './dash-board/screen-controller/screen-controller.component';
-import { NutritionistComponent } from './dash-board/nutritionist/nutritionist';
+import { NutritionistComponent } from './dash-board/nutritionist/nutritionist.component';
 import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
 
 const routes: Routes = [
