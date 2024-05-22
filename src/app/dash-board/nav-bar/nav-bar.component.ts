@@ -10,6 +10,8 @@ import { AuthServiceService } from 'src/app/Services/auth-service.service';
 export class NavBarComponent {
 
   @Input() urls: { nombre: string, url: string }[] = [];
+  @Input() nameUser: string = ''
+  @Input() navBarBrand = 'Proyecto TT'
 
   constructor(
     private authService: AuthServiceService,
@@ -19,5 +21,9 @@ export class NavBarComponent {
   logOut() {
     this.authService.deleteToken()
     this.router.navigate(['/login'])
+  }
+
+  setItemName(itemName: string) {
+    this.navBarBrand = itemName;
   }
 }

@@ -1,24 +1,40 @@
 <div class="container">
-    <div class="card mt-5">
-        <h5 class="card-header">Login</h5>
-        <div class="card-body">
-            <form (ngSubmit)="login()" [formGroup]="formLogin">
-                <div class="row">
-                    <div class="col col-10">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Usuario</span>
-                            <input type="text" formControlName="email" class="form-control">
+    <div class="">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="card">
+                <div class="card-body">
+                    <form (ngSubmit)="login()" [formGroup]="formLogin">
+                        <div class="row justify-content-center">
+                            <div class="col col-12 mb-3 text-center">
+                                <i class="fa-solid fa-utensils fa-2xl" style="color: #725AC1;"></i>
+                                <h2 style="color: #818181;">Nutrition Nameless System</h2>
+                            </div>
+                            <div class="col col-12 mb-3 text-center">
+                                <h3>Bienvenido</h3>
+                                <p class="fs-6" style="color: #818181;">Ingresa tu correo y Contraseña</p>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="email"  id="email" required="">
+                                    <label for="email" class="label">Usuario</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="password" formControlName="password" id="password" required="">
+                                    <label for="password" class="label">Contraseña</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <button [disabled]="formLogin.invalid" class="custom-button"> Inicar sesión </button>
+                                <p class="fs-6 text-center" style="color: #818181;">¿No tienes cuenta? <a style="color: #725AC1;" routerLink="">Click aquí</a></p> 
+                            </div>
                         </div>
-                    </div>
-                    <div class="col col-10">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-                            <input type="password" formControlName="password" class="form-control">
-                        </div>
-                    </div>
+                    </form>
                 </div>
-                <button [disabled]="formLogin.invalid" class="btn btn-success">Success</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>

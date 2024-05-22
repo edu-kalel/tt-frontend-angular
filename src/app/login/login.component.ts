@@ -31,6 +31,7 @@ export class LoginComponent {
       this.authService.login(infoLogin).pipe().subscribe((data: authToken) => {
         this.authService.setToken(data.token)
         this.authService.setRole(data.role)
+        this.authService.setName(data.name)
         this.router.navigate(['dash-board'])
       })
     }

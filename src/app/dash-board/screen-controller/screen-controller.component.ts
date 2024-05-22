@@ -10,7 +10,9 @@ import { NutritionistService } from 'src/app/Services/nutritionist.service';
 })
 export class ScreenControllerComponent {
   urls: { nombre: string, url: string }[] = [];
+  nameUser: string = ''
   mainScreen: string = ''
+  navBarBrand: string = ''
 
   constructor(
     private authService: AuthServiceService,
@@ -29,8 +31,16 @@ export class ScreenControllerComponent {
 
   getRole() {
     const role = this.authService.getRole()
+    this.nameUser = this.authService.getName()
     if (role == 'NUTRITIONIST' || role == 'NUTRITIONIST_ADMIN') {
+      this.navBarBrand = 'Citas de hoy'
       this.mainScreen = '/dash-board/nutritionist'
+      this.urls = [
+        { nombre: 'Inicio', url: '/dash-board/nutritionist' },
+      ]
+    } else if (role == 'SECRETARY_ADMIN') {
+      this.navBarBrand = 'Usuarios'
+      this.mainScreen = '/dash-board/secretary'
       this.urls = [
         { nombre: 'Pacientes', url: '/dash-board/nutritionist' },
       ]

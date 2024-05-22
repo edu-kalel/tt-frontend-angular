@@ -34,8 +34,20 @@ export class AuthServiceService {
     return this.cookie.get('role');
   }
 
-  deleteRole() {
+  deleteName() {
     this.cookie.delete('role');
+  }
+
+  setName(name: string) {
+    this.cookie.set('name', name);
+  }
+
+  getName() {
+    return this.cookie.get('name');
+  }
+
+  deleteRole() {
+    this.cookie.delete('name');
   }
 
   login(dataAuth: authInfo): Observable<authToken> {

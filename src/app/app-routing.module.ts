@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { ScreenControllerComponent } from './dash-board/screen-controller/screen-controller.component';
 import { NutritionistComponent } from './dash-board/nutritionist/nutritionist.component';
 import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
+import { ManageAppointmentsComponent } from './dash-board/nutritionist/manage-appointments/manage-appointments.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -11,6 +13,10 @@ const routes: Routes = [
     path: 'dash-board', component: ScreenControllerComponent, children: [
       {
         path: 'nutritionist', component: NutritionistComponent, children: [
+          { path: '', component: ManageAppointmentsComponent }
+        ]
+      }, {
+        path: 'secretary', component: NutritionistComponent, children: [
           { path: '', component: ManagePatientsComponent }
         ]
       }
