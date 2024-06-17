@@ -23,6 +23,10 @@ const routes: Routes = [
         ]
       }, {
         path: 'secretary', component: NutritionistComponent, children: [
+          { path: '', component: ManageAppointmentsComponent },
+          { path: 'admin', component: UserAdminComponent, children: [
+            {path: '', component: ConsultarUsuariosComponent}
+          ]}
         ]
       }
     ]

@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
     template: `
         <button type="button" class="custom-button" (click)="parentModal.show()">{{titulo}}</button>
         <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h4 id="dialog-nested-name1" class="modal-title pull-left">Registrar {{titulo}}</h4>
@@ -85,7 +85,7 @@ import Swal from "sweetalert2";
                                     <div class="underline"></div>
                                 </div>
                             </div>
-                            <div class="col col-10" *ngIf="tipoUsuario == 1">
+                            <div class="col col-10" *ngIf="tipoUsuario == 2">
                                 <div class="input-container">
                                     <input type="text" formControlName="parent_email" id="parent_email" required="">
                                     <label for="parent_email" class="label">Email de encargado</label>
@@ -267,7 +267,9 @@ export class NewUserComponent implements OnChanges {
     endpoint = ''
     roles = {
         NUTRITIONIST: 'Nutriólogo',
-        SECRETARY: 'Secretario'
+        NUTRITIONIST_ADMIN: 'Nutriólogo administrador',
+        SECRETARY: 'Secretario',
+        SECRETARY_ADMIN: 'Secretario adminstrador'
     }
 
     constructor(

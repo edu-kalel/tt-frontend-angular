@@ -46,7 +46,7 @@ export class ManageAppointmentsComponent {
       text: `Se cancelará la cita de ${userName}`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#000",
+      confirmButtonColor: "#725AC1",
       cancelButtonColor: "#6E1300",
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar"
@@ -111,7 +111,7 @@ export class ManageAppointmentsComponent {
     Swal.fire({
       icon: 'error',
       title: message,
-      confirmButtonColor: "#000",
+      confirmButtonColor: "#725AC1",
       confirmButtonText: "Aceptar",
     })
   }

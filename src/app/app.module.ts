@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from "ngx-cookie-service";
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,11 +18,11 @@ import { ManageAppointmentsComponent,  } from './dash-board/nutritionist/manage-
 import { DecimalPipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewAppointMentCompoement } from './dash-board/single-components/new-appointment.component';
-import { NewPatientComponent } from './dash-board/single-components/new-patient.component'; 
 import { NewUserComponent } from './dash-board/single-components/new-user.component';
 import { RegisterComponent } from './register/register.component';
 import { UserAdminComponent } from './dash-board/admin/users/users.component';
 import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-usuarios/consultar-usuarios.component';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,6 @@ import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-u
     RegisterComponent,
     UserAdminComponent,
     ConsultarUsuariosComponent,
-    NewPatientComponent,
     NewUserComponent
   ],
   imports: [
@@ -48,6 +47,8 @@ import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-u
     HttpClientModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -10,7 +10,12 @@
             Falta enpoint de cards
         </div>
         <div class="col col-3">
-            <new-appointment></new-appointment>
+            Falta enpoint de cards
+        </div>
+        <div class="col col-3">
+            <new-appointment
+                (reloadAppointments)="getTodayAppointments()"
+            ></new-appointment>
         </div>
         <div class="col col-3">
             <new-user 
@@ -39,7 +44,7 @@
                     <td>{{appointment.patient}}</td>
                     <td>{{convertTo24HourFormat(appointment.starting_time)}}</td>
                     <td>
-                        <a style="color: #725AC1;" routerLink="." (click)="cancelAppointment(appointment.patient, appointment.id_appointment)">Click aquí</a>
+                        <a style="color: #725AC1;" routerLink="." (click)="cancelAppointment(appointment.patient, appointment.id_appointment)">Cancelar cita</a>
                     </td>
                 </tr>                    
             </tbody>

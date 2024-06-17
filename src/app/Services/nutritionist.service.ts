@@ -31,11 +31,18 @@ export class NutritionistService {
     return this.http.get<AppointmentBasicInfo[]> (endpoint + '/nutri/today-confirmed-appointments', { headers })
   }
 
+  newAppointment(appointment: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.post(endpoint + '/nutri/appointment', appointment, {headers})
+  }
+
   deleteAppointment(appointmentId: number): Observable<string> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.delete(endpoint + '/nutri/delete-appointment/' + appointmentId, { headers, responseType: 'text' })
+    return this.http.delete(endpoint + '/nutri/appointment/delete/' + appointmentId, { headers, responseType: 'text' })
   }
 
   newPatient(typeEndpoint: string, patient: User){

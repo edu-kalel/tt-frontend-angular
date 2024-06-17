@@ -42,14 +42,15 @@ export class ScreenControllerComponent {
       this.navBarBrand = 'Citas de hoy'
       this.mainScreen = '/dash-board/nutritionist'
       this.urls = [
-        { nombre: 'Inicio', url: '/dash-board/nutritionist' },
+        { nombre: 'Citas para hoy', url: '/dash-board/nutritionist' },
         { nombre: 'Panel de administrador', url: '/dash-board/nutritionist/admin' },
       ]
     } else if (role == 'SECRETARY_ADMIN') {
       this.navBarBrand = 'Usuarios'
       this.mainScreen = '/dash-board/secretary'
       this.urls = [
-        { nombre: 'Pacientes', url: '/dash-board/nutritionist' },
+        { nombre: 'Pacientes', url: '/dash-board/secretary' },
+        { nombre: 'Panel de administrador', url: '/dash-board/secretary/admin' },
       ]
     }
   }
