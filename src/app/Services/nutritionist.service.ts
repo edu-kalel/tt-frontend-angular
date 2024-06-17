@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { AppointmentBasicInfo, endpoint } from '../models';
+import { AppointmentBasicInfo, endpoint, User } from '../models';
 import { AuthServiceService } from './auth-service.service';
 import { Observable } from 'rxjs';
 
@@ -36,5 +36,13 @@ export class NutritionistService {
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.delete(endpoint + '/nutri/delete-appointment/' + appointmentId, { headers, responseType: 'text' })
+  }
+
+  newPatient(typeEndpoint: string, patient: User){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.post(endpoint + typeEndpoint, patient, { headers, responseType: 'text' })
   }
 }

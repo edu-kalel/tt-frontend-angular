@@ -159,16 +159,37 @@
     stroke: #725AC1;
 }
 
-#cbx:checked+.check svg {
+#cbx-OVERWEIGHT:checked+.check svg,
+#cbx-OBESITY:checked+.check svg,
+#cbx-DIABETES:checked+.check svg,
+#cbx-HYPOTHYROIDISM:checked+.check svg,
+#cbx-CARDIAC_PROBLEMS:checked+.check svg,
+#cbx-GASTROINTESTINAL_PROBLEMS:checked+.check svg,
+#cbx-CIRCULATORY_PROBLEMS:checked+.check svg,
+#cbx-DENTAL_PROBLEMS:checked+.check svg {
     stroke: #725AC1;
 }
 
-#cbx:checked+.check svg path {
+#cbx-OVERWEIGHT:checked+.check svg path,
+#cbx-OBESITY:checked+.check svg path,
+#cbx-DIABETES:checked+.check svg path,
+#cbx-HYPOTHYROIDISM:checked+.check svg path,
+#cbx-CARDIAC_PROBLEMS:checked+.check svg path,
+#cbx-GASTROINTESTINAL_PROBLEMS:checked+.check svg path,
+#cbx-CIRCULATORY_PROBLEMS:checked+.check svg path,
+#cbx-DENTAL_PROBLEMS:checked+.check svg path {
     stroke-dashoffset: 60;
     transition: all 0.3s linear;
 }
 
-#cbx:checked+.check svg polyline {
+#cbx-OVERWEIGHT:checked+.check svg polyline,
+#cbx-OBESITY:checked+.check svg polyline,
+#cbx-DIABETES:checked+.check svg polyline,
+#cbx-HYPOTHYROIDISM:checked+.check svg polyline,
+#cbx-CARDIAC_PROBLEMS:checked+.check svg polyline,
+#cbx-GASTROINTESTINAL_PROBLEMS:checked+.check svg polyline,
+#cbx-CIRCULATORY_PROBLEMS:checked+.check svg polyline,
+#cbx-DENTAL_PROBLEMS:checked+.check svg polyline {
     stroke-dashoffset: 42;
     transition: all 0.2s linear;
     transition-delay: 0.15s;

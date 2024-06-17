@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { User } from "src/app/models";
 import { AdminService } from "src/app/Services/admin.service";
+import { NutritionistService } from "src/app/Services/nutritionist.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -67,7 +68,7 @@ import Swal from "sweetalert2";
                                     <div class="underline"></div>
                                 </div>
                             </div>
-                            <div class="col col-10" *ngIf="tipoOperacion == '1' && modo == 1">
+                            <div class="col col-10">
                                 <div class="input-container">
                                     <input type="password" formControlName="password" id="password" required="">
                                     <label for="password" class="label">Contraseña</label>
@@ -91,104 +92,153 @@ import Swal from "sweetalert2";
                                     <div class="underline"></div>
                                 </div>
                             </div>
-                            <div *ngIf="tipoUsuario != 1">
-                                <div class="row">
+                            <div *ngIf="tipoUsuario != 1"  class="col col-10">
+                                <h4>Padecimientos comunes que presenta el paciente</h4>
+                                <div class="row mt-3">
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-OVERWEIGHT" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-OVERWEIGHT" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Sobrepeso</p>
+                                            </div>
                                         </div>
-                                        Sobrepeso
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-CARDIAC_PROBLEMS" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-CARDIAC_PROBLEMS" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Problemas cardiacos</p>
+                                            </div>
                                         </div>
-                                        Problemas cardiacos
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-OBESITY" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-OBESITY" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Obesidad</p>
+                                            </div>
                                         </div>
-                                        Obesidad
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-GASTROINTESTINAL_PROBLEMS" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-GASTROINTESTINAL_PROBLEMS" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Problemas gastroinstestinales</p>
+                                            </div>
                                         </div>
-                                        Problemas gastrointestinales
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-DIABETES" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-DIABETES" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Diabetes</p>
+                                            </div>
                                         </div>
-                                        Diabetes
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-CIRCULATORY_PROBLEMS" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-CIRCULATORY_PROBLEMS" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Problemas de circulación</p>
+                                            </div>
                                         </div>
-                                        Problemas de circulación
                                     </div>
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-HYPOTHYROIDISM" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-HYPOTHYROIDISM" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Hipotoroidismo</p>
+                                            </div>
                                         </div>
-                                        Hipotiroidismo
-                                    </div>
+                                    </div>                                    
                                     <div class="col col-6">
-                                        <div class="container">
-                                            <input type="checkbox" id="cbx" style="display: none;">
-                                            <label for="cbx" class="check">
-                                                <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
-                                                    <polyline points="1 9 7 14 15 4"></polyline>
-                                                </svg>
-                                            </label>
+                                        <div class="row">
+                                            <div class="col col-2">
+                                                <div class="container">
+                                                    <input type="checkbox" id="cbx-DENTAL_PROBLEMS" (change)="onCheckboxChange($event)" style="display: none;">
+                                                    <label for="cbx-DENTAL_PROBLEMS " class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col col-10">
+                                                <p>Problemas dentales</p>
+                                            </div>
                                         </div>
-                                        Problemas dentales
-                                    </div>
+                                    </div>                        
                                 </div>
                             </div>
                             <div class="col col-10">
@@ -210,6 +260,7 @@ export class NewUserComponent implements OnChanges {
     @Input() modo: number = 0 // 1 para staff y 2 para patient
     @Input() tipoOperacion: string = '0' // 1 para post y 2 para put
     @Input() tipoUsuario: number = 0 // 1 para admin, 2 para secretario y 3 para nutriólogo
+    ailments: string[] = []
     formRegister: FormGroup
     inputFecha = 'text'
     selectedMoment = new Date();
@@ -221,7 +272,8 @@ export class NewUserComponent implements OnChanges {
 
     constructor(
         private _form: FormBuilder,
-        private adminService: AdminService
+        private adminService: AdminService,
+        private nutriService: NutritionistService
     ) {
         this.formRegister = this._form.group({
             email: ['', Validators.required],
@@ -231,20 +283,29 @@ export class NewUserComponent implements OnChanges {
             date_of_birth: ['', Validators.required],
             phone: ['', Validators.required],
             sex: ['', Validators.required],
-            parent_email: ['', Validators.required],
-            role: ['', Validators.required]
+            parent_email: [''],
+            role: ['']
         })
-    }
-
-    ngOnInit(){
-        console.log(this.modo + '-> Modo')
-        console.log(this.tipoUsuario + '-> usuario')
     }
 
     registerStaff() {
         if (this.formRegister.valid) {
             console.log(this.formRegister.value)
             this.adminService.newUser(this.endpoint, this.formRegister.value).subscribe(
+                (data) => {
+                    if (this.parentModal) this.parentModal.hide()
+                    this.formRegister.reset()
+                    this.showMessageSucces('Registro exitoso');
+                }
+            )
+        }
+    }
+
+    registerPatient() {
+        if(this.formRegister.valid) {
+            let patient:User = this.formRegister.value
+            patient.ailments = this.ailments
+            this.nutriService.newPatient(this.endpoint, patient).subscribe(
                 (data) => {
                     if (this.parentModal) this.parentModal.hide()
                     this.formRegister.reset()
@@ -276,7 +337,7 @@ export class NewUserComponent implements OnChanges {
                 break
             case 2:
                 if (this.tipoOperacion == '1') {
-
+                    this.registerPatient()
                 } else {
 
                 }
@@ -307,6 +368,22 @@ export class NewUserComponent implements OnChanges {
     onFocus() {
         this.inputFecha = 'date'
     }
+
+    onCheckboxChange(event: any) {
+        const isChecked = event.target.checked;
+        const ailment = event.target.id.split('-')[1];
+    
+        if (isChecked) {
+          if (!this.ailments.includes(ailment)) {
+            this.ailments.push(ailment);
+          }
+        } else {
+          const index = this.ailments.indexOf(ailment);
+          if (index !== -1) {
+            this.ailments.splice(index, 1);
+          }
+        }
+      }
 
     showMessageSucces(message: string) {
         Swal.fire({

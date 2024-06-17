@@ -24,6 +24,7 @@ export class ManageAppointmentsComponent {
   ) { }
 
   ngOnInit() {
+    this.setParameters()
     this.getTodayAppointments()
   }
 
