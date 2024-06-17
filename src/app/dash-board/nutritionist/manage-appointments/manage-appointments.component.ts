@@ -2,6 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { AuthServiceService } from 'src/app/Services/auth-service.service';
 import { NutritionistService } from 'src/app/Services/nutritionist.service';
 import { AppointmentBasicInfo } from 'src/app/models';
 import Swal from 'sweetalert2';
@@ -14,9 +15,12 @@ import Swal from 'sweetalert2';
 export class ManageAppointmentsComponent {
   fecha: string = 'Fecha de hoy'
   appointmentsToday: AppointmentBasicInfo[] = []
+  modo: number = 2
+  tipoUser: number = 0
 
   constructor(
-    private nutritionistService: NutritionistService
+    private nutritionistService: NutritionistService,
+    private authService: AuthServiceService
   ) { }
 
   ngOnInit() {
@@ -28,6 +32,11 @@ export class ManageAppointmentsComponent {
       .subscribe((data: AppointmentBasicInfo[]) => {
         this.appointmentsToday = data
       })
+  }
+
+  setParameters() {
+    const role = this.authService.getRole()
+    this.tipoUser = role == 'NUTRITIONIST' ||  role == 'NUTRITIONIST_ADMIN' ? 3 : 2
   }
 
   cancelAppointment(userName: string, id: number) {

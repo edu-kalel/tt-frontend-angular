@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-3">
+            <new-user 
+                titulo="Nuevo usuario"
+                [tipoUsuario]="tipoUser"
+                [modo]="modo"
+                tipoOperacion="1"
+            ></new-user>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <p class="fs-4">Usuarios</p>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Clínica</th>
+                    <th>Encargado</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">     
+                <tr *ngFor="let user of usersStaff">
+                    <td>{{user.first_name}} {{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.clinic}}</td>                    
+                    <td>{{user.parent_email}}</td>
+                    <td>{{getRole(user.role)}}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col col-3">
+
+                            </div>
+                            <div class="col col-3">
+
+                            </div>
+                            <div class="col col-3">
+
+                            </div>
+                            <div class="col col-3">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>                    
+            </tbody>
+        </table>
+    </div>
+</div>

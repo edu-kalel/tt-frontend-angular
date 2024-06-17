@@ -1,0 +1,107 @@
+<div class="container">
+    <div class="">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="card">
+                <div class="card-body">
+                    <form (ngSubmit)="register()" [formGroup]="formRegister">
+                        <div class="row justify-content-center">
+                            <div class="col col-10 mb-3">
+                                <h3 class="text-center">Registrar nuevo usuario<br />¡Bienvenido!<br /></h3>
+                                <p class="fs-6" style="color: #818181;">
+                                    Aquí podrás crear los accesos necesarios para poder acceder al sistema. <br />
+                                    Considera lo siguiente:
+                                </p>
+                                <ul>
+                                    <li>Este registro está pensado para <strong>Nutriólogos</strong> y
+                                        <strong>Secretarios</strong> que necesitan empezar a usar el sistema en sus
+                                        consultorios.
+                                    </li>
+                                    <li>Si en tu consultorio ya se utiliza este sistema, comunicate con el responsable
+                                        para que creen tu cuenta y te proporcionen tus accesos.</li>
+                                    <li>Si eres un paciente, comunicate con el responsable de tu consultario de
+                                        nutrición para que te proporcione tus accesos.</li>
+                                </ul>
+                                <strong>Importante: El nombre de la clínica debe ser único. Asegúrate de que tu clínica no esté ya registrada.</strong>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="first_name" id="nombre" required="">
+                                    <label for="nombre" class="label">Nombre(s)</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="last_name" id="apellidos" required="">
+                                    <label for="apellidos" class="label">Apellido(s)</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input [type]="inputFecha" (focus)="onFocus()" (blur)="onBlur()"
+                                        formControlName="date_of_birth" id="fechaNacimiento" required="">
+                                    <label for="fechaNacimiento" class="label">Fecha de nacimiento</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="phone" id="telefono" required="">
+                                    <label for="telefono" class="label">Teléfono</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container label-noanimated">
+                                    <label class="label" for="sex">Sexo</label>
+                                    <select id="sex" class="select-estatus" formControlName="sex">
+                                        <option value="MASC">Masculino</option>
+                                        <option value="FEM">Femenino</option>
+                                    </select>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="email" id="email" required="">
+                                    <label for="email" class="label">Email</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="password" formControlName="password" id="password" required="">
+                                    <label for="password" class="label">Contraseña</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container label-noanimated">
+                                    <label class="label" for="Rol">Rol</label>
+                                    <select id="Rol" class="select-estatus" formControlName="role">
+                                        <option *ngFor="let role of roles | keyvalue" [value]="role.key">
+                                            {{role.value}}</option>
+                                    </select>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="clinic" id="clinic" required="">
+                                    <label for="clinic" class="label">Clínica</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <button type="submit" [disabled]="formRegister.invalid" class="custom-button"> Registrarse </button>
+                                <p class="fs-6 text-center" style="color: #818181;">¿Ya tienes cuenta? <a
+                                        style="color: #725AC1;" routerLink="/">Click aquí</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

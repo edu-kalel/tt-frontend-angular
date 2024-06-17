@@ -12,14 +12,17 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { ScreenControllerComponent } from './dash-board/screen-controller/screen-controller.component';
-import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
 import { NutritionistComponent } from './dash-board/nutritionist/nutritionist.component';
 import { NavBarComponent } from './dash-board/nav-bar/nav-bar.component';
 import { ManageAppointmentsComponent,  } from './dash-board/nutritionist/manage-appointments/manage-appointments.component';
 import { DecimalPipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewAppointMentCompoement } from './dash-board/single-components/new-appointment.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { NewPatientComponent } from './dash-board/single-components/new-patient.component'; 
+import { NewUserComponent } from './dash-board/single-components/new-user.component';
+import { RegisterComponent } from './register/register.component';
+import { UserAdminComponent } from './dash-board/admin/users/users.component';
+import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-usuarios/consultar-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +30,14 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     LoginComponent,
     ScreenControllerComponent,
     NutritionistComponent,
-    ManagePatientsComponent,
     NavBarComponent,
     ManageAppointmentsComponent,
-    NewAppointMentCompoement
+    NewAppointMentCompoement,
+    RegisterComponent,
+    UserAdminComponent,
+    ConsultarUsuariosComponent,
+    NewPatientComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +48,6 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     HttpClientModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
-    OwlDateTimeModule, 
-    OwlNativeDateTimeModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -53,4 +53,8 @@ export class AuthServiceService {
   login(dataAuth: authInfo): Observable<authToken> {
     return this.http.post<authToken>(endpoint + '/auth/authenticate', dataAuth)
   }
+
+  register(dataRegister: any) {
+    return this.http.post(endpoint + '/auth/new-clinic/register', dataRegister, {responseType: 'text'})
+  }
 }

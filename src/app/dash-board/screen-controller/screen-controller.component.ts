@@ -26,17 +26,24 @@ export class ScreenControllerComponent {
 
   logout() {
     this.authService.deleteToken()
-    this.router.navigate(['/login'])
+    this.router.navigate(['/'])
   }
 
   getRole() {
     const role = this.authService.getRole()
     this.nameUser = this.authService.getName()
-    if (role == 'NUTRITIONIST' || role == 'NUTRITIONIST_ADMIN') {
+    if (role == 'NUTRITIONIST') {
       this.navBarBrand = 'Citas de hoy'
       this.mainScreen = '/dash-board/nutritionist'
       this.urls = [
         { nombre: 'Inicio', url: '/dash-board/nutritionist' },
+      ]
+    } else if(role == 'NUTRITIONIST_ADMIN') {
+      this.navBarBrand = 'Citas de hoy'
+      this.mainScreen = '/dash-board/nutritionist'
+      this.urls = [
+        { nombre: 'Inicio', url: '/dash-board/nutritionist' },
+        { nombre: 'Panel de administrador', url: '/dash-board/nutritionist/admin' },
       ]
     } else if (role == 'SECRETARY_ADMIN') {
       this.navBarBrand = 'Usuarios'

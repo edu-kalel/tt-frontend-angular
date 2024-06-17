@@ -4,7 +4,12 @@
             <new-appointment></new-appointment>
         </div>
         <div class="col col-3">
-            <a routerLink="" class="custom-button"> Nuevo paciente </a>
+            <new-user 
+                titulo="Nuevo paciente"
+                [tipoUsuario]="tipoUser"
+                [modo]="modo"
+                tipoOperacion="1"
+            ></new-user>
         </div>
         <div class="col col-3">
             <a routerLink="" class="custom-button"> Nueva dieta </a>

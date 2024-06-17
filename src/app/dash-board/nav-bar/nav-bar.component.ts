@@ -20,7 +20,7 @@ export class NavBarComponent {
 
   logOut() {
     this.authService.deleteToken()
-    this.router.navigate(['/login'])
+    this.router.navigate(['/'])
   }
 
   setItemName(itemName: string) {

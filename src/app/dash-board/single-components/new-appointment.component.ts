@@ -19,9 +19,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
                     <div class="row">
                         <div class="col col-10">
                         <label>Date Time(binding via ngModel):</label>
-                            <input [(ngModel)]="selectedMoment"
-                                [owlDateTimeTrigger]="dtPicker1" [owlDateTime]="dtPicker1">
-                            <owl-date-time #dtPicker1></owl-date-time>
                         </div>
                     </div>
                 </form>
