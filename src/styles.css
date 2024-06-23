@@ -1,11 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import '~@fortawesome/fontawesome-free/css/all.css';
-
-ß * {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-}
 
 .input-container {
     position: relative;
@@ -16,6 +9,7 @@
 .input-container input[type="text"],
 .input-container input[type="password"],
 .input-container input[type="date"],
+.input-container input[type="number"],
 .select-estatus {
     font-size: 20px;
     width: 100%;
@@ -46,7 +40,9 @@
 .input-container input[type="password"]:focus~.label,
 .input-container input[type="password"]:valid~.label,
 .input-container input[type="date"]:focus~.label,
-.input-container input[type="date"]:valid~.label {
+.input-container input[type="date"]:valid~.label,
+.input-container input[type="number"]:focus~.label,
+.input-container input[type="number"]:valid~.label {
     top: -20px;
     font-size: 16px;
     color: #725AC1;
@@ -69,6 +65,8 @@
 .input-container input[type="password"]:valid~.underline,
 .input-container input[type="date"]:focus~.label,
 .input-container input[type="date"]:valid~.label,
+.input-container input[type="number"]:focus~.label,
+.input-container input[type="number"]:valid~.label
 .input-container select:valid~.underline {
     transform: scaleX(1);
 }
@@ -192,4 +190,83 @@
     stroke-dashoffset: 42;
     transition: all 0.2s linear;
     transition-delay: 0.15s;
+}
+
+.custom-card {
+    width: 100%;
+    height: 150px;
+    background-color: #ffffff;
+    border: 1px solid #725ac18a;
+    border-radius: 8px;
+    color: #2b2b2b;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.custom-card:hover {
+    transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+    box-shadow: 0 10px 20px rgba(33, 33, 33, 0.1);
+    border: 1px solid #725AC1;
+}
+
+.custom-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
+}
+
+.custom-card:hover:before {
+    transform: translateX(-100%);
+}
+
+.custom-card:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
+}
+
+.custom-card:hover:after {
+    transform: translateX(100%);
+}
+
+.loader {
+    width: 14%;
+    margin-left: 43%;
+    aspect-ratio: 1;
+    color: #dc1818;
+    background:
+        radial-gradient(circle at 60% 65%, currentColor 62%, #0000 65%) top left,
+        radial-gradient(circle at 40% 65%, currentColor 62%, #0000 65%) top right,
+        linear-gradient(to bottom left, currentColor 42%, #0000 43%) bottom left,
+        linear-gradient(to bottom right, currentColor 42%, #0000 43%) bottom right;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.loader:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    opacity: 0.4;
+    animation: l3 1s infinite;
+}
+
+@keyframes l3 {
+    to {
+        transform: scale(1.8);
+        opacity: 0
+    }
 }

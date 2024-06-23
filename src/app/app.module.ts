@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,8 @@ import { RegisterComponent } from './register/register.component';
 import { UserAdminComponent } from './dash-board/admin/users/users.component';
 import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-usuarios/consultar-usuarios.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { NewDietComponent } from './dash-board/nutritionist/new-diet/new-diet.component';
+import { NewDietTableComponent } from './dash-board/single-components/new-diet-table.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     RegisterComponent,
     UserAdminComponent,
     ConsultarUsuariosComponent,
-    NewUserComponent
+    NewUserComponent,
+    NewDietComponent,
+    NewDietTableComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot()
   ],
-  providers: [CookieService],
+  providers: [CookieService, {provide: LOCALE_ID, useValue: 'es'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

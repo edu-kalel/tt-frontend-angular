@@ -4,7 +4,7 @@ import { Component, Directive, EventEmitter, Input, Output, QueryList, ViewChild
 import { catchError, throwError } from 'rxjs';
 import { AuthServiceService } from 'src/app/Services/auth-service.service';
 import { NutritionistService } from 'src/app/Services/nutritionist.service';
-import { AppointmentBasicInfo } from 'src/app/models';
+import { AppointmentBasicInfo, NutriCards } from 'src/app/models';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,17 +13,21 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manage-appointments.component.css']
 })
 export class ManageAppointmentsComponent {
-  fecha: string = 'Fecha de hoy'
+  fecha: Date | string = 'Fecha de hoy'
   appointmentsToday: AppointmentBasicInfo[] = []
   modo: number = 2
   tipoUser: number = 0
+  nutriCards: NutriCards [] | undefined
 
   constructor(
     private nutritionistService: NutritionistService,
     private authService: AuthServiceService
-  ) { }
+  ) { 
+    this.fecha = new Date()
+  }
 
   ngOnInit() {
+    this.getCards()
     this.setParameters()
     this.getTodayAppointments()
   }
@@ -38,6 +42,13 @@ export class ManageAppointmentsComponent {
   setParameters() {
     const role = this.authService.getRole()
     this.tipoUser = role == 'NUTRITIONIST' ||  role == 'NUTRITIONIST_ADMIN' ? 3 : 2
+  }
+
+  getCards() {
+    this.nutritionistService.getCards().pipe()
+      .subscribe((data: NutriCards[]) => {
+        this.nutriCards = data
+      })
   }
 
   cancelAppointment(userName: string, id: number) {
@@ -86,11 +97,10 @@ export class ManageAppointmentsComponent {
     });
   }
 
-  convertTo24HourFormat(isoString: string): string {
-    const date = new Date(isoString);
-    const hours = this.padZero(date.getUTCHours());
-    const minutes = this.padZero(date.getUTCMinutes());
-    const seconds = this.padZero(date.getUTCSeconds());
+  convertTo24HourFormat(dateTime: string): string {
+    const date = new Date(dateTime);
+    const hours = this.padZero(date.getHours());
+    const minutes = this.padZero(date.getMinutes());
     return `${hours}:${minutes} hrs.`;
   }
 

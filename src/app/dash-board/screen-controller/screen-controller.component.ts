@@ -40,7 +40,7 @@ export class ScreenControllerComponent {
       ]
     } else if(role == 'NUTRITIONIST_ADMIN') {
       this.navBarBrand = 'Citas de hoy'
-      this.mainScreen = '/dash-board/nutritionist'
+      this.mainScreen = '/dash-board/nutritionist/new-diet'
       this.urls = [
         { nombre: 'Citas para hoy', url: '/dash-board/nutritionist' },
         { nombre: 'Panel de administrador', url: '/dash-board/nutritionist/admin' },

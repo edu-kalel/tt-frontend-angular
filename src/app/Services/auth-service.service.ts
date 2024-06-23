@@ -50,6 +50,10 @@ export class AuthServiceService {
     this.cookie.delete('name');
   }
 
+  deteleAllCookies() {
+    this.cookie.deleteAll();
+  }
+
   login(dataAuth: authInfo): Observable<authToken> {
     return this.http.post<authToken>(endpoint + '/auth/authenticate', dataAuth)
   }

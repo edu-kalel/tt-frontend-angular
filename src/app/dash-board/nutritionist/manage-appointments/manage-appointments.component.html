@@ -1,32 +1,21 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col col-3">
-            Falta enpoint de cards
+        <div class="col col-3" *ngFor="let card of nutriCards">
+            <div class="custom-card">
+                <div class="text-center">
+                    <p class="fs-5 fw-bolder">{{card.small}}</p>
+                    <p class="fw-bolder" style="margin-top: -3rem; padding: 0; font-size: 7rem;">{{card.big}}</p>
+                </div>
+            </div>
         </div>
         <div class="col col-3">
-            Falta enpoint de cards
+            <new-appointment (reloadAppointments)="getTodayAppointments()"></new-appointment>
         </div>
         <div class="col col-3">
-            Falta enpoint de cards
+            <new-user titulo="Nuevo paciente" [tipoUsuario]="tipoUser" [modo]="modo" tipoOperacion="1"></new-user>
         </div>
         <div class="col col-3">
-            Falta enpoint de cards
-        </div>
-        <div class="col col-3">
-            <new-appointment
-                (reloadAppointments)="getTodayAppointments()"
-            ></new-appointment>
-        </div>
-        <div class="col col-3">
-            <new-user 
-                titulo="Nuevo paciente"
-                [tipoUsuario]="tipoUser"
-                [modo]="modo"
-                tipoOperacion="1"
-            ></new-user>
-        </div>
-        <div class="col col-3">
-            <a routerLink="" class="custom-button"> Nueva dieta </a>
+            <a routerLink="new-diet" class="custom-button"> Nueva dieta </a>
         </div>
     </div>
     <div class="row mt-3">
@@ -35,18 +24,20 @@
                 <tr>
                     <th scope="col">
                         <p class="fs-4">Proximas citas</p>
-                        <p class="fs-6">Para hoy {{ fecha }}</p>
+                        <p class="fs-6">Para hoy {{ fecha | date:'fullDate' }}</p>
                     </th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider">     
+            <tbody class="table-group-divider">
                 <tr *ngFor="let appointment of appointmentsToday">
                     <td>{{appointment.patient}}</td>
                     <td>{{convertTo24HourFormat(appointment.starting_time)}}</td>
                     <td>
-                        <a style="color: #725AC1;" routerLink="." (click)="cancelAppointment(appointment.patient, appointment.id_appointment)">Cancelar cita</a>
+                        <a style="color: #725AC1;" routerLink="."
+                            (click)="cancelAppointment(appointment.patient, appointment.id_appointment)">Cancelar
+                            cita</a>
                     </td>
-                </tr>                    
+                </tr>
             </tbody>
         </table>
     </div>

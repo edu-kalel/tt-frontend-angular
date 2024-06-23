@@ -1,0 +1,354 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header" style="
+            --bs-card-cap-bg: #725AC1;
+            --bs-card-cap-color: #fff
+        ">
+            Cálculo de gasto energético
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <div class="col col-8">
+                    <p class="fs-5"><strong>Ingresa los datos del paciente</strong></p>
+                    <form (ngSubmit)="calcularGE()" [formGroup]="formGastoEnergetico">
+                        <div class="input-container mt-4">
+                            <input type="text" formControlName="patientEmail" id="Paciente" required="">
+                            <label for="Paciente" class="label">Email del aciente</label>
+                            <div class="underline"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-6">
+                                <div class="input-container">
+                                    <input type="number" formControlName="patientWeight" id="Peso" required="">
+                                    <label for="Peso" class="label">Peso (KG)</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-6">
+                                <div class="input-container">
+                                    <input type="number" formControlName="patientHeight" id="Estatura" required="">
+                                    <label for="Estatura" class="label">Estatura (cm)</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-container label-noanimated mt-3">
+                            <label class="label" for="Rol">Nivel de actividad</label>
+                            <select id="Rol" class="select-estatus" formControlName="activityLevel">
+                                <option *ngFor="let level of activityLevel | keyvalue" [value]="level.key">
+                                    {{level.value}}</option>
+                            </select>
+                            <div class="underline"></div>
+                        </div>
+                        <button [disabled]="formGastoEnergetico.invalid" class="custom-button"> Calcular </button>
+                    </form>
+                </div>
+                <div class="col col-4 mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col col-8">
+                            <div *ngIf="isLoading && showInfo else loader">
+                                <div class="loader"></div>
+                            </div>
+                            <ng-template #loader>
+                                <div *ngIf="!isLoading && showInfo">
+                                    <div class="input-container">
+                                        <div class="fs-5">GER: </div>
+                                        <input type="number" id="Estatura" [value]="gastoEnergetico?.ger" required=""
+                                            readonly>
+                                        <div class="underline" style="transform: scaleX(1);"></div>
+                                    </div>
+                                    <div class="input-container">
+                                        <div class="fs-5">GET: </div>
+                                        <input type="number" id="Estatura" [value]="gastoEnergetico?.get" required=""
+                                            readonly>
+                                        <div class="underline" style="transform: scaleX(1);"></div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3 mb-5">
+        <div class="card-header" style="
+            --bs-card-cap-bg: #725AC1;
+            --bs-card-cap-color: #fff
+        ">
+            Cálculo de porciones
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <div class="col col-12">
+                    <form (ngSubmit)="calcularPorciones()" [formGroup]="formCalculoPorciones">
+                        <div class="row align-items-center">
+                            <div class="col col-8">
+                                <p class="fs-5"><strong>Ingresa los datos</strong></p>
+                            </div>
+                            <div class="col col-4">
+                                <button [disabled]="formCalculoPorciones.invalid" class="custom-button"> Calcular
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col col-3">
+                                <div class="input-container">
+                                    <input type="number" formControlName="totalKcal" id="totalKcal" required="">
+                                    <label for="totalKcal" class="label">Total de Kilocalorías</label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-3">
+                                <div class="input-container">
+                                    <input type="number" formControlName="porcentajeHco" id="porcentajeHco" required="">
+                                    <label for="porcentajeHco" class="label">Porcentaje de Carbohidratos: </label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-3">
+                                <div class="input-container">
+                                    <input type="number" formControlName="porcentajeLip" id="porcentajeLip" required="">
+                                    <label for="porcentajeLip" class="label">Porcentaje de Lípidos: </label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                            <div class="col col-3">
+                                <div class="input-container">
+                                    <input type="number" formControlName="porcentajePro" id="porcentajePro" required="">
+                                    <label for="porcentajePro" class="label">Porcentaje de Proteínas: </label>
+                                    <div class="underline"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="color: red;" *ngIf="formCalculoPorciones.errors?.['percentageSum']">
+                            * Los porcentajes deben sumar 100%.
+                        </div>
+                    </form>
+                    <div class="row justify-content-center">
+                        <div class="col col-10">
+                            <div *ngIf="isLoading_Porciones && showInfo_Porciones else loader_Porciones ">
+                                <div class="loader"></div>
+                            </div>
+                            <ng-template #loader_Porciones>
+                                <div *ngIf="!isLoading_Porciones && showInfo_Porciones">
+                                    <div class="row mt-3">
+                                        <div class="col col-3">
+                                            <div class="input-container">
+                                                <div class="fs-5">Suma Kcal: </div>
+                                                <input type="number" id="sumaKcal" [value]="sumaKcal" required=""
+                                                    readonly>
+                                                <div class="underline" style="transform: scaleX(1);"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-3">
+                                            <div class="input-container">
+                                                <div class="fs-5">Suma de proteínas: </div>
+                                                <input type="number" id="sumaProteinas" [value]="sumaProteinas"
+                                                    required="" readonly>
+                                                <div class="underline" style="transform: scaleX(1);"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-3">
+                                            <div class="input-container">
+                                                <div class="fs-5">Suma de lípidos: </div>
+                                                <input type="number" id="sumaLipidos" [value]="sumaLipidos" required=""
+                                                    readonly>
+                                                <div class="underline" style="transform: scaleX(1);"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-3">
+                                            <div class="input-container">
+                                                <div class="fs-5">Suma de carbohidratos: </div>
+                                                <input type="number" id="sumaCarbohidratos" [value]="sumaCarbohidratos"
+                                                    required="" readonly>
+                                                <div class="underline" style="transform: scaleX(1);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Alimento</th>
+                                                <th scope="col">Cantiad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            <tr *ngFor="let alimento of porciones | keyvalue">
+                                                <th>{{transformKey(alimento.key)}}</th>
+                                                <td>{{alimento.value}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="!showDietPlan else PlanDietaTable">
+            <div class="col col-12">
+                <button class="custom-button" (click)="childModal.show()"> Crear plan de
+                    dieta
+                </button>
+            </div>
+        </div>
+        <ng-template #PlanDietaTable>
+            <div class="row justify-content-center text-center">
+                <div class="col col-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Opción 1</th>
+                                <th scope="col">Opción 2</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr>
+                                <th scope="row">Desayuno</th>
+                                <td>
+                                    <div *ngIf="planDieta?.breakfast1 != 'No' else btnAgregar_d1">
+                                        {{planDieta?.breakfast1}}
+                                    </div>
+                                    <ng-template #btnAgregar_d1>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="BREAKFAST"
+                                            dietOption="OPTION1" titulo="Desayuno - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div *ngIf="planDieta?.breakfast2 != 'No' else btnAgregar_d2">
+                                        {{planDieta?.breakfast2}}
+                                    </div>
+                                    <ng-template #btnAgregar_d2>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="BREAKFAST"
+                                            dietOption="OPTION2" titulo="Desayuno - opción 2"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Colación 1</th>
+                                <td>
+                                    <div *ngIf="planDieta?.colation1_1 != 'No' else btnAgregar_cl1">
+                                        {{planDieta?.colation1_1}}
+                                    </div>
+                                    <ng-template #btnAgregar_cl1>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="COLATION1"
+                                            dietOption="OPTION1" titulo="Colación - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div *ngIf="planDieta?.colation1_2 != 'No' else btnAgregar_cl2">
+                                        {{planDieta?.colation1_2}}
+                                    </div>
+                                    <ng-template #btnAgregar_cl2>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="COLATION1"
+                                            dietOption="OPTION2" titulo="Colación - opción 2"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Comida</th>
+                                <td>
+                                    <div *ngIf="planDieta?.lunch1 != 'No' else btnAgregar_c1">
+                                        {{planDieta?.lunch1}}
+                                    </div>
+                                    <ng-template #btnAgregar_c1>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="LUNCH"
+                                            dietOption="OPTION1" titulo="Comida - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div *ngIf="planDieta?.lunch2 != 'No' else btnAgregar_c2">
+                                        {{planDieta?.lunch2}}
+                                    </div>
+                                    <ng-template #btnAgregar_c2>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="LUNCH"
+                                            dietOption="OPTION2" titulo="Comida - opción 2"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Colación 2</th>
+                                <td>
+                                    <div *ngIf="planDieta?.colation2_1 != 'No' else btnAgregar_cl3">
+                                        {{planDieta?.colation2_1}}
+                                    </div>
+                                    <ng-template #btnAgregar_cl3>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="COLATION2"
+                                            dietOption="OPTION1" titulo="Colación - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div *ngIf="planDieta?.colation2_2 != 'No' else btnAgregar_cl4">
+                                        {{planDieta?.colation2_2}}
+                                    </div>
+                                    <ng-template #btnAgregar_cl4>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="COLATION2"
+                                            dietOption="OPTION2" titulo="Colación - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cena</th>
+                                <td>
+                                    <div *ngIf="planDieta?.dinner1 != 'No' else btnAgregar_cn1">
+                                        {{planDieta?.dinner1}}
+                                    </div>
+                                    <ng-template #btnAgregar_cn1>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="DINNER"
+                                            dietOption="OPTION1" titulo="Cena - opción 1"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <div *ngIf="planDieta?.dinner2 != 'No' else btnAgregar_cn2">
+                                        {{planDieta?.dinner2}}
+                                    </div>
+                                    <ng-template #btnAgregar_cn2>
+                                        <new-diet-table [dietPlanId]="idPlanDieta" [aliments]="aliments" mealTime="DINNER"
+                                            dietOption="OPTION2" titulo="Cena - opción 2"></new-diet-table>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+
+<!-- Modales -->
+<div class="modal fade" bsModal #childModal="bs-modal" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-nested-name1" class="modal-title pull-left">Crear plan de dieta</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="childModal.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-container mt-4">
+                    <input type="text" [(ngModel)]="emailPaciente" id="Paciente" required="">
+                    <label for="Paciente" class="label">Email del aciente</label>
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="childModal.hide()">Cancelar</button>
+                <button type="button" (click)="crearPlanDieta()" class="btn btn-primary" style="
+                        --bs-btn-bg: #725AC1; 
+                        --bs-btn-border-color: #725AC1;
+                        --bs-btn-hover-bg: #fff;
+                        --bs-btn-hover-color: #000
+                    ">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>

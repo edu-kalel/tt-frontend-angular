@@ -7,6 +7,7 @@ import { ManageAppointmentsComponent } from './dash-board/nutritionist/manage-ap
 import { RegisterComponent } from './register/register.component';
 import { UserAdminComponent } from './dash-board/admin/users/users.component';
 import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-usuarios/consultar-usuarios.component';
+import { NewDietComponent } from './dash-board/nutritionist/new-diet/new-diet.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
           { path: '', component: ManageAppointmentsComponent } ,
           { path: 'admin', component: UserAdminComponent, children: [
             {path: '', component: ConsultarUsuariosComponent}
-          ]}
+          ]},
+          { path: 'new-diet', component: NewDietComponent }
         ]
       }, {
         path: 'secretary', component: NutritionistComponent, children: [

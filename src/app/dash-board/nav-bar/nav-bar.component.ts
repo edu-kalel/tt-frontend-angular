@@ -19,7 +19,7 @@ export class NavBarComponent {
   ) { }
 
   logOut() {
-    this.authService.deleteToken()
+    this.authService.deteleAllCookies()
     this.router.navigate(['/'])
   }
 
