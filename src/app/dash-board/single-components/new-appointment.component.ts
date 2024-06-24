@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { catchError, throwError } from "rxjs";
 import { NutritionistService } from "src/app/Services/nutritionist.service";
+import { PatientService } from "src/app/Services/patient.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -20,7 +21,7 @@ import Swal from "sweetalert2";
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form (ngSubmit)="addApointment()" [formGroup]="formNewAppointment">
+                    <form (ngSubmit)="saveAppoinment()" [formGroup]="formNewAppointment">
                         <div class="row justify-content-center">
                             <div class="col col-10">
                                 <div class="input-container">
@@ -65,6 +66,7 @@ export class NewAppointMentCompoement {
     @ViewChild('parentModal', { static: false }) parentModal?: ModalDirective;
     @Output() reloadAppointments = new EventEmitter<any>();
     @Input() email: string | any = ''
+    @Input() isPatient: boolean = false
     formNewAppointment: FormGroup
     selectedMoment = new Date();
     inputFecha = 'text'
@@ -72,7 +74,8 @@ export class NewAppointMentCompoement {
 
     constructor(
         private _form: FormBuilder,
-        private nutriService: NutritionistService
+        private nutriService: NutritionistService,
+        private patientService: PatientService
     ) {
         this.formNewAppointment = this._form.group({
             email: ['', Validators.required],
@@ -92,37 +95,72 @@ export class NewAppointMentCompoement {
         })
     }
 
-    addApointment() {
-        if (this.formNewAppointment.valid) {
+    addApointment(newAppointment: any) {
+        this.nutriService.newAppointment(newAppointment).
+            pipe(
+                catchError((error) => {
+                    if (error instanceof HttpErrorResponse) {
+                        console.log(error.message)
+                        switch (error.status) {
+                            case 409:
+                                this.showErrorMessage("Este paciente ya tiene una cita para el mismo día");
+                                break;
+                        }
+                    } else {
+                        this.showErrorMessage("Error de conexión");
+                    }
+                    return throwError(() => new Error("Login failed"));
+                })
+            ).
+            subscribe(
+                (data: any) => {
+                    if (this.parentModal) this.parentModal.hide()
+                    this.formNewAppointment.reset()
+                    this.reloadAppointments.emit()
+                    this.showMessageSucces(`Cita de ${data.patient} confirmada`)
+                }
+            )
+    }
+
+    soliciteAppointment(newAppointment: any) {
+        this.patientService.newAppointment(newAppointment).
+            pipe(
+                catchError((error) => {
+                    if (error instanceof HttpErrorResponse) {
+                        console.log(error.message)
+                        switch (error.status) {
+                            case 409:
+                                this.showErrorMessage("Ya tienes una cita para el mismo día");
+                                break;
+                        }
+                    } else {
+                        this.showErrorMessage("Error de conexión");
+                    }
+                    return throwError(() => new Error("Login failed"));
+                })
+            ).
+            subscribe(
+                (data: any) => {
+                    if (this.parentModal) this.parentModal.hide()
+                    this.formNewAppointment.reset()
+                    this.showMessageSucces(`Cita solicitada`)
+                }
+            )
+    }
+
+    saveAppoinment() {
+        if (this.formNewAppointment.value) {
             const newAppointment = {
                 patient_email: this.formNewAppointment.get('email')?.value,
                 starting_time: this.formNewAppointment.get('starting_time')?.value,
                 ending_time: this.formNewAppointment.get('ending_date')?.value,
             }
-            this.nutriService.newAppointment(newAppointment).
-                pipe(
-                    catchError((error) => {
-                        if (error instanceof HttpErrorResponse) {
-                            console.log(error.message)
-                            switch (error.status) {
-                                case 409:
-                                    this.showErrorMessage("Este paciente ya tiene una cita para el mismo día");
-                                    break;
-                            }
-                        } else {
-                            this.showErrorMessage("Error de conexión");
-                        }
-                        return throwError(() => new Error("Login failed"));
-                    })
-                ).
-                subscribe(
-                    (data: any) => {
-                        if (this.parentModal) this.parentModal.hide()
-                        this.formNewAppointment.reset()
-                        this.reloadAppointments.emit()
-                        this.showMessageSucces(`Cita de ${data.patient} confirmada`)
-                    }
-                )
+
+            if (this.isPatient) {
+                this.soliciteAppointment(newAppointment)
+            } else {
+                this.addApointment(newAppointment)
+            }
         }
     }
 

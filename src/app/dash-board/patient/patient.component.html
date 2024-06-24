@@ -1,0 +1,325 @@
+<div class="container">
+    <div *ngIf="!showMessage else ErrorMessage">
+        <div class="row">
+            <div class="col col-12">
+                <new-appointment [email]="email" [isPatient]="true"></new-appointment>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-12">
+                        <tabset [justified]="true">
+                            <tab heading="Ver historial de planes de dieta">
+                                <div class="row">
+                                    <div class="col col-12">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Meta</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                <tr *ngFor="let diet of dietList">
+                                                    <td>{{convertToDDMMYY(diet.date)}}</td>
+                                                    <td>{{diet.goal}}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-warning"
+                                                            (click)="getDietById(diet.id)">Ver detalle</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab heading="Ver comentarios">
+                                <div class="row mt-3">
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="nombre" [(ngModel)]="comentario" required="">
+                                            <label for="nombre" class="label">Comentario</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button class="btn" style="
+                                            --bs-btn-bg: #725AC1; 
+                                            --bs-btn-color: #fff; 
+                                            --bs-btn-border-color: #725AC1;
+                                            --bs-btn-hover-bg: #fff;
+                                            --bs-btn-hover-color: #725AC1;
+                                            --bs-btn-hover-border-color: #725AC1;
+                                        " (click)="enviarComentario()">
+                                            Enviar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-12">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Paciente</th>
+                                                    <th>Fecha</th>
+                                                    <th>Comentario</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                <tr *ngFor="let post of posts">
+                                                    <td>{{post.patient}}</td>
+                                                    <td>{{convertTo24HourFormat(post.date_time)}}</td>
+                                                    <td>{{post.content}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab heading="Información de usuario">
+                                <div class="row justify-content-center mt-5">
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="nombre" required="" readonly
+                                                [value]="userInfo?.first_name">
+                                            <label for="nombre" class="label">Nombre(s)</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="apellidos" required="" readonly
+                                                [value]="userInfo?.last_name">
+                                            <label for="apellidos" class="label">Apellido(s)</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="fechaNacimiento" required="" readonly
+                                                [value]="convertToDDMMYY(userInfo?.date_of_birth)">
+                                            <label for="fechaNacimiento" class="label">Fecha de nacimiento</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="telefono" required="" readonly
+                                                [value]="userInfo?.phone">
+                                            <label for="telefono" class="label">Teléfono</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="telefono" required="" readonly
+                                                [value]="userInfo?.sex">
+                                            <label for="telefono" class="label">Sexo</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="email" required="" readonly
+                                                [value]="userInfo?.email">
+                                            <label for="email" class="label">Email</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="input-container">
+                                            <input type="text" id="parent_email" required="" readonly
+                                                [value]="userInfo?.parent_email">
+                                            <label for="parent_email" class="label">Email de nutriólogo</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                        </tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #ErrorMessage>
+        <h2 class="text-center" style="color: rgb(236, 13, 13);">Sin información</h2>
+    </ng-template>
+</div>
+
+<div class="modal fade" bsModal #modalDieta="bs-modal" tabindex="-1" role="dialog"
+    aria-labelledby="dialog-nested-name1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-nested-name1" class="modal-title pull-left">Detalle de la dieta</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalDieta.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center">
+                        <div class="col col-12">
+                            <table class="table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Opción 1</th>
+                                        <th scope="col">Opción 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row">Desayuno</th>
+                                        <td>
+                                            <div *ngIf="planDieta?.breakfast1 != 'No' else btnAgregar_d1">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.breakfast1)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_d1>
+
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="planDieta?.breakfast2 != 'No' else btnAgregar_d2">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.breakfast2)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_d2>
+
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Colación 1</th>
+                                        <td>
+                                            <div *ngIf="planDieta?.colation1_1 != 'No' else btnAgregar_cl1">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.colation1_1)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cl1>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="planDieta?.colation1_2 != 'No' else btnAgregar_cl2">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.colation1_2)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cl2>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comida</th>
+                                        <td>
+                                            <div *ngIf="planDieta?.lunch1 != 'No' else btnAgregar_c1">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.lunch1)">{{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_c1>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="planDieta?.lunch2 != 'No' else btnAgregar_c2">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.lunch2)">{{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_c2>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Colación 2</th>
+                                        <td>
+                                            <div *ngIf="planDieta?.colation2_1 != 'No' else btnAgregar_cl3">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.colation2_1)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cl3>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="planDieta?.colation2_2 != 'No' else btnAgregar_cl4">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.colation2_2)">
+                                                        {{item}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cl4>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Cena</th>
+                                        <td>
+                                            <div *ngIf="planDieta?.dinner1 != 'No' else btnAgregar_cn1">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.dinner1)">
+                                                        {{item}}</li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cn1>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div *ngIf="planDieta?.dinner2 != 'No' else btnAgregar_cn2">
+                                                <ul>
+                                                    <li *ngFor="let item of transformString(planDieta?.dinner2)">
+                                                        {{item}}</li>
+                                                </ul>
+                                            </div>
+                                            <ng-template #btnAgregar_cn2>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col col-12">
+                            <div class="row mt-3">
+                                <div class="col col-6">
+                                    <div class="input-container">
+                                        <input type="text" id="goal" [value]="planDieta?.goal" required="" readonly>
+                                        <label for="goal" class="label">Meta: </label>
+                                        <div class="underline"></div>
+                                    </div>
+                                </div>
+                                <div class="col col-6">
+                                    <div class="input-container">
+                                        <input type="text" id="comment" [value]="planDieta?.comment" required=""
+                                            readonly>
+                                        <label for="comment" class="label">Comentarios: </label>
+                                        <div class="underline"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

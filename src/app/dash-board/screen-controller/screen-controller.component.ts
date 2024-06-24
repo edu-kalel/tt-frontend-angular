@@ -56,6 +56,9 @@ export class ScreenControllerComponent {
         { nombre: 'Pacientes', url: '/dash-board/secretary' },
         { nombre: 'Panel de administrador', url: '/dash-board/secretary/admin' },
       ]
+    } else if(role == 'PATIENT') {
+      this.navBarBrand = 'Inicio'
+      this.mainScreen = '/dash-board/patient'
     }
   }
 }

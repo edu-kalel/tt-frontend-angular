@@ -31,6 +31,7 @@ import { AppointmentTableComponent } from './dash-board/single-components/appoin
 import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
 import { ConsultarPacientesComponent } from './dash-board/nutritionist/manage-patients/consultar-pacientes/consultar-pacientes.component';
 import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/ver-detalle/ver-detalle.component';
+import { PatientComponent } from './dash-board/patient/patient.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/v
     AppointmentTableComponent,
     ManagePatientsComponent,
     ConsultarPacientesComponent,
-    VerDetalleComponent
+    VerDetalleComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,
