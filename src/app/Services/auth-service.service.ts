@@ -54,6 +54,18 @@ export class AuthServiceService {
     this.cookie.deleteAll();
   }
 
+  setEmail(email: string) {
+    this.cookie.set('email', email);
+  }
+
+  getEmail() {
+    return this.cookie.get('email');
+  }
+
+  deleteEmail() {
+    this.cookie.delete('email');
+  }
+
   login(dataAuth: authInfo): Observable<authToken> {
     return this.http.post<authToken>(endpoint + '/auth/authenticate', dataAuth)
   }

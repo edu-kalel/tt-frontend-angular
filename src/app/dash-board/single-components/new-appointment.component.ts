@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, EventEmitter, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { catchError, throwError } from "rxjs";
@@ -11,52 +11,52 @@ import Swal from "sweetalert2";
     template: `
         <button type="button" class="custom-button" (click)="parentModal.show()">Nueva Cita</button>
         <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="dialog-nested-name1" class="modal-title pull-left">Agendar cita</h4>
-                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="parentModal.hide()">
-                <span aria-hidden="true" class="visually-hidden">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form (ngSubmit)="addApointment()" [formGroup]="formNewAppointment">
-                    <div class="row justify-content-center">
-                        <div class="col col-10">
-                            <div class="input-container">
-                                <input type="text" formControlName="email" id="email_p" required="">
-                                <label for="email_p" class="label">Email del paciente</label>
-                                <div class="underline"></div>
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-nested-name1" class="modal-title pull-left">Agendar cita</h4>
+                    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="parentModal.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="addApointment()" [formGroup]="formNewAppointment">
+                        <div class="row justify-content-center">
+                            <div class="col col-10">
+                                <div class="input-container">
+                                    <input type="text" formControlName="email" id="email_p" required="">
+                                    <label for="email_p" class="label">Email del paciente</label>
+                                    <div class="underline"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col col-10">
-                            <div class="row align-items-center">
-                                <div class="col col-6">
-                                    <div class="input-container">
-                                        <input [type]="inputFecha" (change)="ngOnInit()" (focus)="onFocus()" (blur)="onBlur()"
-                                           formControlName="date" id="starting_time" required="">
-                                        <label for="starting_time" class="label">Fecha de la cita</label>
-                                        <div class="underline"></div>
+                            <div class="col col-10">
+                                <div class="row align-items-center">
+                                    <div class="col col-6">
+                                        <div class="input-container">
+                                            <input [type]="inputFecha" (change)="ngOnInit()" (focus)="onFocus()" (blur)="onBlur()"
+                                            formControlName="date" id="starting_time" required="">
+                                            <label for="starting_time" class="label">Fecha de la cita</label>
+                                            <div class="underline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-3">
+                                        <p class="label" style="color: #725AC1">Hora de inicio</p>
+                                        <timepicker formControlName='start_hour' (ngModelChange)="changeStartTime()" [showMeridian]="false" [minuteStep]="15"></timepicker>
+                                    </div>
+                                    <div class="col col-3">
+                                        <p class="label" style="color: #725AC1">Hora de inicio</p>
+                                        <timepicker formControlName='end_hour' (ngModelChange)="changeEndTime()" [showMeridian]="false" [minuteStep]="15"></timepicker>
                                     </div>
                                 </div>
-                                <div class="col col-3">
-                                    <p class="label" style="color: #725AC1">Hora de inicio</p>
-                                    <timepicker formControlName='start_hour' (ngModelChange)="changeStartTime()" [showMeridian]="false" [minuteStep]="15"></timepicker>
-                                </div>
-                                <div class="col col-3">
-                                    <p class="label" style="color: #725AC1">Hora de inicio</p>
-                                    <timepicker formControlName='end_hour' (ngModelChange)="changeEndTime()" [showMeridian]="false" [minuteStep]="15"></timepicker>
-                                </div>
+                            </div>
+                            <div class="col col-10">
+                                <button type="submit" [disabled]="formNewAppointment.invalid" class="custom-button"> Agendar cita </button>
                             </div>
                         </div>
-                        <div class="col col-10">
-                            <button type="submit" [disabled]="formNewAppointment.invalid" class="custom-button"> Agendar cita </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
         </div>
     `
 })
@@ -64,6 +64,7 @@ import Swal from "sweetalert2";
 export class NewAppointMentCompoement {
     @ViewChild('parentModal', { static: false }) parentModal?: ModalDirective;
     @Output() reloadAppointments = new EventEmitter<any>();
+    @Input() email: string | any = ''
     formNewAppointment: FormGroup
     selectedMoment = new Date();
     inputFecha = 'text'
@@ -86,6 +87,9 @@ export class NewAppointMentCompoement {
     ngOnInit() {
         this.changeStartTime()
         this.changeEndTime()
+        this.formNewAppointment.patchValue({
+            email: this.email
+        })
     }
 
     addApointment() {
@@ -114,6 +118,7 @@ export class NewAppointMentCompoement {
                 subscribe(
                     (data: any) => {
                         if (this.parentModal) this.parentModal.hide()
+                        this.formNewAppointment.reset()
                         this.reloadAppointments.emit()
                         this.showMessageSucces(`Cita de ${data.patient} confirmada`)
                     }

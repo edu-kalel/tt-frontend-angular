@@ -28,6 +28,9 @@ import { NewDietComponent } from './dash-board/nutritionist/new-diet/new-diet.co
 import { NewDietTableComponent } from './dash-board/single-components/new-diet-table.component';
 import { ManageAppointemntsRecordComponent } from './dash-board/nutritionist/manage-appointemnts-record/manage-appointemnts-record.component';
 import { AppointmentTableComponent } from './dash-board/single-components/appointments-table.component';
+import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
+import { ConsultarPacientesComponent } from './dash-board/nutritionist/manage-patients/consultar-pacientes/consultar-pacientes.component';
+import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/ver-detalle/ver-detalle.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { AppointmentTableComponent } from './dash-board/single-components/appoin
     NewDietComponent,
     NewDietTableComponent,
     ManageAppointemntsRecordComponent,
-    AppointmentTableComponent
+    AppointmentTableComponent,
+    ManagePatientsComponent,
+    ConsultarPacientesComponent,
+    VerDetalleComponent
   ],
   imports: [
     BrowserModule,

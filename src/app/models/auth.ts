@@ -6,5 +6,6 @@ export interface authInfo {
 export interface authToken {
     token: string,
     role: string,
-    name: string
+    name: string,
+    email: string
 }

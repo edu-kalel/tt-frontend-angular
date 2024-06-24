@@ -9,6 +9,9 @@ import { UserAdminComponent } from './dash-board/admin/users/users.component';
 import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-usuarios/consultar-usuarios.component';
 import { NewDietComponent } from './dash-board/nutritionist/new-diet/new-diet.component';
 import { ManageAppointemntsRecordComponent } from './dash-board/nutritionist/manage-appointemnts-record/manage-appointemnts-record.component';
+import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patients/manage-patients.component';
+import { ConsultarPacientesComponent } from './dash-board/nutritionist/manage-patients/consultar-pacientes/consultar-pacientes.component';
+import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/ver-detalle/ver-detalle.component';
 
 
 const routes: Routes = [
@@ -24,6 +27,11 @@ const routes: Routes = [
           ]},
           { path: 'new-diet', component: NewDietComponent },
           { path: 'appointments', component: ManageAppointemntsRecordComponent },
+          { path: 'patients', component: ManagePatientsComponent, children: [
+            {path: '', component: ConsultarPacientesComponent},
+            {path: 'detail/:emailPaciente', component: VerDetalleComponent},
+            {path: 'new-diet', component: NewDietComponent}
+          ]}
         ]
       }, {
         path: 'secretary', component: NutritionistComponent, children: [

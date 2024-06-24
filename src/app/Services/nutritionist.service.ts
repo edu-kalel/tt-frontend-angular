@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Aliments, AppointmentBasicInfo, DietByidPlan, endpoint, GastoEnergetico, NutriCards, PorcionesComida, User } from '../models';
+import { Aliments, AppointmentBasicInfo, DietByidPlan, endpoint, GastoEnergetico, NutriCards, PatientRecord, Patients, PorcionesComida, User, UserBasicInfo } from '../models';
 import { AuthServiceService } from './auth-service.service';
 import { Observable } from 'rxjs';
 
@@ -24,11 +24,56 @@ export class NutritionistService {
     return this.http.get<NutriCards[]>(endpoint + '/nutri/cards', {headers})
   }
 
-  getPatients() {
+  getPatients(): Observable<Patients[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.get(endpoint + '/nutri/patients', { headers })
+    return this.http.get<Patients[]>(endpoint + '/nutri/patients', { headers })
+  }
+
+  deletePatient(emailPaciente: string) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.delete(endpoint + '/nutri/patient/' + emailPaciente, {headers, responseType: 'text'})
+  }
+
+  getPacientBasicInfo(emailPaciente: string): Observable<UserBasicInfo> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.get<UserBasicInfo>(endpoint + '/nutri/patient/big-info/' + emailPaciente, {headers})
+  }
+
+  getPatientRecord(emailPaciente: string): Observable<PatientRecord[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.get<PatientRecord[]>(endpoint + '/nutri/patient/records/' + emailPaciente, {headers})
+  }
+
+  getPatientDietList(emailPaciente: string): Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.get<any>(endpoint + '/nutri/patient/diet-plan-list/' + emailPaciente, {headers})
+  }
+
+  getPatientPost(emailPaciente: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.get<any>(endpoint + '/nutri/' + emailPaciente + '/posts', {headers})
+  }
+
+  getUserInfo(emailPaciente: string): Observable<User>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.get<User>(endpoint + '/nutri/patient/info/' + emailPaciente, {headers})
   }
 
   getTodayAppointment(): Observable<AppointmentBasicInfo[]> {

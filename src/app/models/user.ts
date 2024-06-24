@@ -10,3 +10,11 @@ export interface User {
     parent_email?: string
     ailments?: string[]
 }
+
+export interface UserBasicInfo {
+    fullName: string,
+    age: number
+    weight: number
+    height: number,
+    email: string
+}

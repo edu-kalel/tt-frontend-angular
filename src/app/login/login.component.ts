@@ -32,6 +32,7 @@ export class LoginComponent {
         this.authService.setToken(data.token)
         this.authService.setRole(data.role)
         this.authService.setName(data.name)
+        this.authService.setEmail(data.email)
         this.router.navigate(['dash-board'])
       })
     }

@@ -28,4 +28,18 @@ export class AdminService {
     });
     return this.http.post(endpoint + typeEndpoint, user, { headers})
   }
+
+  updateStaffUser(typeEndpoint: string, user: User) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.put(endpoint + typeEndpoint, user, {headers})
+  }
+
+  deleteStaffUser(emailUser: string) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.delete(endpoint + '/admin/user/' + emailUser, {headers, responseType: 'text'})
+  }
 }

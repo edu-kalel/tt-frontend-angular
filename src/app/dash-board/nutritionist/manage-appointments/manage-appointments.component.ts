@@ -59,7 +59,7 @@ export class ManageAppointmentsComponent {
       showCancelButton: true,
       confirmButtonColor: "#725AC1",
       cancelButtonColor: "#6E1300",
-      confirmButtonText: "Confirmar",
+      confirmButtonText: "Confirmar", 
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {

@@ -55,19 +55,31 @@ export interface DietByidPlan {
 }
 
 export interface Aliments {
-    id: number,
-    name: string,
-    group: string,
-    quantity: string,
-    unit: string,
-    kcal: string,
-    carbs: string,
-    fats: string,
-    proteins: string,
+    id: number
+    name: string
+    group: string
+    quantity: string
+    unit: string
+    kcal: string
+    carbs: string
+    fats: string
+    proteins: string
     cantidad?: number | undefined
 }
 
 export interface Meal {
     alimentId: number
     quantity: number
+}
+
+export interface Patients {
+    email: string
+    first_name: string
+    last_name: string
+}
+
+export interface PatientRecord {
+    id: number
+    patientHeight: number
+    patientWeight: number
 }

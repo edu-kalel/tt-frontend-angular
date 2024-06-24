@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { User } from "src/app/models";
@@ -9,7 +9,19 @@ import Swal from "sweetalert2";
 @Component({
     selector: 'new-user',
     template: `
-        <button type="button" class="custom-button" (click)="parentModal.show()">{{titulo}}</button>
+        <div *ngIf="btnNormal else miniButton">
+            <button type="button" class="custom-button" (click)="parentModal.show()">{{titulo}}</button>
+        </div>
+        <ng-template #miniButton>
+            <button type="button" (click)="parentModal.show()" class="btn btn-primary" style="
+                    --bs-btn-bg: #725AC1; 
+                    --bs-btn-border-color: #725AC1;
+                    --bs-btn-hover-bg: #fff;
+                    --bs-btn-hover-color: #000
+                ">
+                <i class="{{fntIcon}}"></i>
+                Editar</button>
+        </ng-template>
         <div class="modal fade" bsModal #parentModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-nested-name1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -85,7 +97,7 @@ import Swal from "sweetalert2";
                                     <div class="underline"></div>
                                 </div>
                             </div>
-                            <div class="col col-10" *ngIf="tipoUsuario == 2">
+                            <div class="col col-10" *ngIf="tipoUsuario == 2 || tipoOperacion == '2'">
                                 <div class="input-container">
                                     <input type="text" formControlName="parent_email" id="parent_email" required="">
                                     <label for="parent_email" class="label">Email de encargado</label>
@@ -242,7 +254,7 @@ import Swal from "sweetalert2";
                                 </div>
                             </div>
                             <div class="col col-10">
-                                <button type="submit" [disabled]="formRegister.invalid" class="custom-button"> Registrar usuario </button>
+                                <button type="submit" class="custom-button"> {{btnTitle}} </button>
                             </div>
                         </div>
                     </form>
@@ -255,11 +267,15 @@ import Swal from "sweetalert2";
 
 export class NewUserComponent implements OnChanges {
     @ViewChild('parentModal', { static: false }) parentModal?: ModalDirective;
+    @Output() reloadUsers = new EventEmitter<any>();
     @Input() titulo: string = ''
     @Input() infoUser: User | undefined
     @Input() modo: number = 0 // 1 para staff y 2 para patient
     @Input() tipoOperacion: string = '0' // 1 para post y 2 para put
     @Input() tipoUsuario: number = 0 // 1 para admin, 2 para secretario y 3 para nutriólogo
+    @Input() btnNormal: boolean = true
+    @Input() fntIcon: string = ''
+    @Input() btnTitle: string = 'Registrar usuario'
     ailments: string[] = []
     formRegister: FormGroup
     inputFecha = 'text'
@@ -303,8 +319,8 @@ export class NewUserComponent implements OnChanges {
     }
 
     registerPatient() {
-        if(this.formRegister.valid) {
-            let patient:User = this.formRegister.value
+        if (this.formRegister.valid) {
+            let patient: User = this.formRegister.value
             patient.ailments = this.ailments
             this.nutriService.newPatient(this.endpoint, patient).subscribe(
                 (data) => {
@@ -316,16 +332,26 @@ export class NewUserComponent implements OnChanges {
         }
     }
 
+    updateStaff() {
+        this.adminService.updateStaffUser(this.endpoint, this.formRegister.value).subscribe(
+            (data) => {
+                if (this.parentModal) this.parentModal.hide()
+                this.formRegister.reset()
+                this.showMessageSucces('Datos guardados exitosamente');
+            }
+        )
+    }
+
     saveChanges() {
         switch (this.tipoUsuario) {
             case 1:
-                this.endpoint = this.tipoOperacion=='1' ? '/admin/new-staff-user' : '/admin/update-staff-user'
+                this.endpoint = this.tipoOperacion == '1' ? '/admin/new-staff-user' : '/admin/update-staff-user'
                 break
             case 2:
-                this.endpoint = this.tipoOperacion=='1' ? '/secretary/new-patient' : '/secretary/patient/update'
+                this.endpoint = this.tipoOperacion == '1' ? '/secretary/new-patient' : '/secretary/patient/update'
                 break
             case 3:
-                this.endpoint = this.tipoOperacion=='1' ? '/nutri/new-patient' :'/nutri/patient/update'
+                this.endpoint = this.tipoOperacion == '1' ? '/nutri/new-patient' : '/nutri/patient/update'
                 break
         }
         switch (this.modo) {
@@ -333,8 +359,9 @@ export class NewUserComponent implements OnChanges {
                 if (this.tipoOperacion == '1') {
                     this.registerStaff()
                 } else {
-
+                    this.updateStaff()
                 }
+                this.reloadUsers.emit()
                 break
             case 2:
                 if (this.tipoOperacion == '1') {
@@ -342,20 +369,22 @@ export class NewUserComponent implements OnChanges {
                 } else {
 
                 }
+                this.reloadUsers.emit()
                 break
         }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes["infoUser"] && changes["infoUser"].currentValue) {
-            this.formRegister.setValue({
+            this.inputFecha = 'date'
+            this.formRegister.patchValue({
                 email: this.infoUser?.email,
                 first_name: this.infoUser?.first_name,
                 last_name: this.infoUser?.last_name,
                 date_of_birth: this.infoUser?.date_of_birth,
                 phone: this.infoUser?.phone,
                 sex: this.infoUser?.sex,
-                parent_email: this.infoUser?.parent_email,
+                parent_email: this.infoUser?.parent_email !== 'No parent' ? this.infoUser?.parent_email : '',
                 role: this.infoUser?.role
             })
         }
@@ -373,25 +402,25 @@ export class NewUserComponent implements OnChanges {
     onCheckboxChange(event: any) {
         const isChecked = event.target.checked;
         const ailment = event.target.id.split('-')[1];
-    
+
         if (isChecked) {
-          if (!this.ailments.includes(ailment)) {
-            this.ailments.push(ailment);
-          }
+            if (!this.ailments.includes(ailment)) {
+                this.ailments.push(ailment);
+            }
         } else {
-          const index = this.ailments.indexOf(ailment);
-          if (index !== -1) {
-            this.ailments.splice(index, 1);
-          }
+            const index = this.ailments.indexOf(ailment);
+            if (index !== -1) {
+                this.ailments.splice(index, 1);
+            }
         }
-      }
+    }
 
     showMessageSucces(message: string) {
         Swal.fire({
-          icon: 'success',
-          title: message,
-          showConfirmButton: false,
-          timer: 1500
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: 1500
         })
     }
 }

@@ -1,6 +1,11 @@
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-12">
+            <new-appointment (reloadAppointments)="ngOnInit()"></new-appointment>
+        </div>
+    </div>
     <tabset [justified]="true">
-        <tab heading="Citas">
+        <tab heading="Citas confirmadas">
             <appointment-table
                 title="Citas confirmadas"
                 [actions]="false"
@@ -8,7 +13,7 @@
                 (reloadAppointments)="ngOnInit()"
             ></appointment-table>
         </tab>
-        <tab heading="Citas agendadas">
+        <tab heading="Citas solicitadas">
             <appointment-table
                 title="Citas solicitadas"
                 [actions]="true"

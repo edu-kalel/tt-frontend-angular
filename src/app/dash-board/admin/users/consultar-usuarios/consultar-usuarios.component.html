@@ -10,48 +10,63 @@
         </div>
     </div>
     <div class="row mt-3">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">
-                        <p class="fs-4">Usuarios</p>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Usuario</th>
-                    <th>Email</th>
-                    <th>Teléfono</th>
-                    <th>Clínica</th>
-                    <th>Encargado</th>
-                    <th>Rol</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">     
-                <tr *ngFor="let user of usersStaff">
-                    <td>{{user.first_name}} {{user.last_name}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.phone}}</td>
-                    <td>{{user.clinic}}</td>                    
-                    <td>{{user.parent_email}}</td>
-                    <td>{{getRole(user.role)}}</td>
-                    <td>
-                        <div class="row">
-                            <div class="col col-3">
-
+        <div class="col col-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <p class="fs-4">Usuarios</p>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Clínica</th>
+                        <th>Encargado</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">     
+                    <tr *ngFor="let user of usersStaff">
+                        <td>{{user.first_name}} {{user.last_name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.clinic}}</td>                    
+                        <td>{{user.parent_email}}</td>
+                        <td>{{getRole(user.role)}}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col col-6">
+                                    <new-user
+                                        titulo="Editar"
+                                        [btnNormal]="false"
+                                        fntIcon="fa-solid fa-user-pen"
+                                        [infoUser]="user"
+                                        [modo]="modo"
+                                        [tipoUsuario]="tipoUser"
+                                        tipoOperacion="2"
+                                        btnTitle="Guardar datos"
+                                        (reloadUsers)="getAllUsersStaff()"
+                                    >
+                                    </new-user>
+                                </div>
+                                <div class="col col-6">
+                                    <button class="btn btn-danger" style="
+                                        --bs-btn-hover-bg: #fff;
+                                        --bs-btn-hover-color: red;
+                                        --bs-btn-hover-border-color: red;
+                                    " (click)="deleteStaffUser(user.first_name, user.email)">
+                                    <i class="fa-solid fa-trash"></i>
+                                        Eliminar
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col col-3">
-
-                            </div>
-                            <div class="col col-3">
-
-                            </div>
-                            <div class="col col-3">
-
-                            </div>
-                        </div>
-                    </td>
-                </tr>                    
-            </tbody>
-        </table>
+                        </td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

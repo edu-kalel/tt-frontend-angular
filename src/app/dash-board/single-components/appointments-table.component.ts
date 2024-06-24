@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
                     <tr>
                         <th>Paciente</th>
                         <th>Fecha y hora</th>
-                        <th *ngIf="actions">
+                        <th>
                             Acciones
                         </th>
                     </tr>
@@ -26,9 +26,9 @@ import Swal from "sweetalert2";
                     <tr *ngFor="let appointment of appointments">
                         <td>{{appointment.patient}}</td>
                         <td>{{convertTo24HourFormat(appointment.starting_time)}}</td>
-                        <td *ngIf="actions">
+                        <td>
                             <div class="row d-flex justify-content-center">
-                                <div class="col col-6">
+                                <div class="col col-6" *ngIf="actions">
                                     <button class="btn" style="
                                         --bs-btn-bg: #725AC1; 
                                         --bs-btn-color: #fff; 
