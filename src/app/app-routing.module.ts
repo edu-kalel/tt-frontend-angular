@@ -13,6 +13,8 @@ import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patien
 import { ConsultarPacientesComponent } from './dash-board/nutritionist/manage-patients/consultar-pacientes/consultar-pacientes.component';
 import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/ver-detalle/ver-detalle.component';
 import { PatientComponent } from './dash-board/patient/patient.component';
+import { SecretaryComponent } from './dash-board/secretary/secretary.component';
+import { ManageUsersByClinicComponent } from './dash-board/secretary/manage-users-by-clinic/manage-users-by-clinic.component';
 
 
 const routes: Routes = [
@@ -35,8 +37,8 @@ const routes: Routes = [
           ]}
         ]
       }, {
-        path: 'secretary', component: NutritionistComponent, children: [
-          { path: '', component: ManageAppointmentsComponent },
+        path: 'secretary', component: SecretaryComponent, children: [
+          { path: '', component: ManageUsersByClinicComponent },
           { path: 'admin', component: UserAdminComponent, children: [
             {path: '', component: ConsultarUsuariosComponent}
           ]}

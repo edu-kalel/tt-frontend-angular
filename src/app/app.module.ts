@@ -32,6 +32,8 @@ import { ManagePatientsComponent } from './dash-board/nutritionist/manage-patien
 import { ConsultarPacientesComponent } from './dash-board/nutritionist/manage-patients/consultar-pacientes/consultar-pacientes.component';
 import { VerDetalleComponent } from './dash-board/nutritionist/manage-patients/ver-detalle/ver-detalle.component';
 import { PatientComponent } from './dash-board/patient/patient.component';
+import { SecretaryComponent } from './dash-board/secretary/secretary.component';
+import { ManageUsersByClinicComponent } from './dash-board/secretary/manage-users-by-clinic/manage-users-by-clinic.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { PatientComponent } from './dash-board/patient/patient.component';
     ManagePatientsComponent,
     ConsultarPacientesComponent,
     VerDetalleComponent,
-    PatientComponent
+    PatientComponent,
+    SecretaryComponent,
+    ManageUsersByClinicComponent
   ],
   imports: [
     BrowserModule,

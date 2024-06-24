@@ -51,9 +51,8 @@ export class ScreenControllerComponent {
       ]
     } else if (role == 'SECRETARY_ADMIN') {
       this.navBarBrand = 'Usuarios'
-      this.mainScreen = '/dash-board/secretary'
+      this.mainScreen = '/dash-board/secretary/admin'
       this.urls = [
-        { nombre: 'Pacientes', url: '/dash-board/secretary' },
         { nombre: 'Panel de administrador', url: '/dash-board/secretary/admin' },
       ]
     } else if(role == 'PATIENT') {

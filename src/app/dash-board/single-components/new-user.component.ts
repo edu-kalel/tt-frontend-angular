@@ -4,6 +4,7 @@ import { ModalDirective } from "ngx-bootstrap/modal";
 import { User } from "src/app/models";
 import { AdminService } from "src/app/Services/admin.service";
 import { NutritionistService } from "src/app/Services/nutritionist.service";
+import { SecretaryService } from "src/app/Services/secretary.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -291,7 +292,8 @@ export class NewUserComponent implements OnChanges {
     constructor(
         private _form: FormBuilder,
         private adminService: AdminService,
-        private nutriService: NutritionistService
+        private nutriService: NutritionistService,
+        private secreService: SecretaryService
     ) {
         this.formRegister = this._form.group({
             email: ['', Validators.required],
@@ -323,6 +325,22 @@ export class NewUserComponent implements OnChanges {
             let patient: User = this.formRegister.value
             patient.ailments = this.ailments
             this.nutriService.newPatient(this.endpoint, patient).subscribe(
+                (data) => {
+                    if (this.parentModal) this.parentModal.hide()
+                    this.formRegister.reset()
+                    this.showMessageSucces('Registro exitoso');
+                }
+            )
+        }
+    }
+
+    registerPatientBySecretary() {
+        if (this.formRegister.valid) {
+            let patient: User = this.formRegister.value
+            delete patient.role
+            patient.ailments = this.ailments
+            console.log(patient)
+            this.secreService.newPatient(this.endpoint, patient).subscribe(
                 (data) => {
                     if (this.parentModal) this.parentModal.hide()
                     this.formRegister.reset()
@@ -365,7 +383,11 @@ export class NewUserComponent implements OnChanges {
                 break
             case 2:
                 if (this.tipoOperacion == '1') {
-                    this.registerPatient()
+                    if (this.tipoUsuario == 2) {
+                        this.registerPatientBySecretary()
+                    } else {
+                        this.registerPatient()
+                    }
                 } else {
 
                 }
