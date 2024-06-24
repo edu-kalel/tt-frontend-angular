@@ -114,4 +114,28 @@ export class NutritionistService {
 
     return this.http.put(endpoint + '/nutri/diet-plan/finish', dietPlan, {headers, responseType: 'text'})
   }
+
+  getAppointmentsConfirmed(): Observable<AppointmentBasicInfo[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.get<AppointmentBasicInfo[]>(endpoint + '/nutri/appointments/confirmed', {headers})
+  }
+
+  getAppointmentsSolicited(): Observable<AppointmentBasicInfo[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.get<AppointmentBasicInfo[]>(endpoint + '/nutri/appointments/solicited', {headers})
+  }
+
+  confirmAppointment(idCita: number) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.put(endpoint + '/nutri/appointment/confirm/' + idCita , null, {headers, responseType: 'text'} )
+  }
 }

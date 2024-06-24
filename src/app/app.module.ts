@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from "ngx-cookie-service";
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,8 @@ import { ConsultarUsuariosComponent } from './dash-board/admin/users/consultar-u
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { NewDietComponent } from './dash-board/nutritionist/new-diet/new-diet.component';
 import { NewDietTableComponent } from './dash-board/single-components/new-diet-table.component';
+import { ManageAppointemntsRecordComponent } from './dash-board/nutritionist/manage-appointemnts-record/manage-appointemnts-record.component';
+import { AppointmentTableComponent } from './dash-board/single-components/appointments-table.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { NewDietTableComponent } from './dash-board/single-components/new-diet-t
     ConsultarUsuariosComponent,
     NewUserComponent,
     NewDietComponent,
-    NewDietTableComponent
+    NewDietTableComponent,
+    ManageAppointemntsRecordComponent,
+    AppointmentTableComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import { NewDietTableComponent } from './dash-board/single-components/new-diet-t
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [CookieService, {provide: LOCALE_ID, useValue: 'es'}],
   bootstrap: [AppComponent]

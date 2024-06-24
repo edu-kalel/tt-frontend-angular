@@ -165,10 +165,10 @@ export class NewAppointMentCompoement {
 
     showErrorMessage(message: string) {
         Swal.fire({
-          icon: 'error',
-          title: message,
-          confirmButtonColor: "#725AC1",
-          confirmButtonText: "Aceptar",
+            icon: 'error',
+            title: message,
+            confirmButtonColor: "#725AC1",
+            confirmButtonText: "Aceptar",
         })
-      }
+    }
 }

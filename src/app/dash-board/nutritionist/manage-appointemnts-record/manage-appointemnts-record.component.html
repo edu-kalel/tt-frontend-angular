@@ -1,0 +1,20 @@
+<div class="container">
+    <tabset [justified]="true">
+        <tab heading="Citas">
+            <appointment-table
+                title="Citas confirmadas"
+                [actions]="false"
+                [appointments]="appointmentsConfirmed"
+                (reloadAppointments)="ngOnInit()"
+            ></appointment-table>
+        </tab>
+        <tab heading="Citas agendadas">
+            <appointment-table
+                title="Citas solicitadas"
+                [actions]="true"
+                [appointments]="appointmentsSolicited"
+                (reloadAppointments)="ngOnInit()"
+            ></appointment-table>
+        </tab>
+    </tabset>
+</div>
