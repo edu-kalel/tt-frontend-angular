@@ -36,11 +36,13 @@ export class ScreenControllerComponent {
       this.navBarBrand = 'Citas de hoy'
       this.mainScreen = '/dash-board/nutritionist'
       this.urls = [
-        { nombre: 'Inicio', url: '/dash-board/nutritionist' },
+        { nombre: 'Citas para hoy', url: '/dash-board/nutritionist' },
+        { nombre: 'Citas', url: '/dash-board/nutritionist/appointments' },
+        { nombre: 'Pacientes', url: '/dash-board/nutritionist/patients' },
       ]
     } else if(role == 'NUTRITIONIST_ADMIN') {
       this.navBarBrand = 'Citas de hoy'
-      this.mainScreen = '/dash-board/nutritionist/patients/detail/joel@mail.com'
+      this.mainScreen = '/dash-board/nutritionist'
       this.urls = [
         { nombre: 'Citas para hoy', url: '/dash-board/nutritionist' },
         { nombre: 'Citas', url: '/dash-board/nutritionist/appointments' },
