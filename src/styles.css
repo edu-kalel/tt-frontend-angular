@@ -1,5 +1,8 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
+body {
+    overflow: auto;
+}
 .input-container {
     position: relative;
     margin: 1rem auto;
@@ -42,7 +45,8 @@
 .input-container input[type="date"]:focus~.label,
 .input-container input[type="date"]:valid~.label,
 .input-container input[type="number"]:focus~.label,
-.input-container input[type="number"]:valid~.label {
+.input-container input[type="number"]:valid~.label,
+.input-container input[type="text"]:read-only~.label {
     top: -20px;
     font-size: 16px;
     color: #725AC1;
@@ -66,7 +70,9 @@
 .input-container input[type="date"]:focus~.label,
 .input-container input[type="date"]:valid~.label,
 .input-container input[type="number"]:focus~.label,
-.input-container input[type="number"]:valid~.label .input-container select:valid~.underline {
+.input-container input[type="number"]:valid~.label,
+.input-container select:valid~.underline,
+.input-container input[type="text"]:read-only~.underline {
     transform: scaleX(1);
 }
 
