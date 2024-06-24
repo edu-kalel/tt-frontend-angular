@@ -63,5 +63,11 @@ export interface Aliments {
     kcal: string,
     carbs: string,
     fats: string,
-    proteins: string
+    proteins: string,
+    cantidad?: number
+}
+
+export interface Meal {
+    alimentId: number
+    quantity: number
 }

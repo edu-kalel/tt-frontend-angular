@@ -21,6 +21,7 @@ export class NewDietComponent {
   }
   formGastoEnergetico: FormGroup
   formCalculoPorciones: FormGroup
+  formFinishDietPlan: FormGroup
   gastoEnergetico: GastoEnergetico | undefined
   isLoading: boolean = true
   isLoading_Porciones: boolean = true
@@ -30,11 +31,12 @@ export class NewDietComponent {
   sumaProteinas: number = 0
   sumaLipidos: number = 0
   sumaCarbohidratos: number = 0
-  idPlanDieta: number = 4
+  idPlanDieta: number = 0
   emailPaciente: string = ''
-  showDietPlan: boolean = true
+  showDietPlan: boolean = false
   planDieta: DietByidPlan | undefined
-  aliments: Aliments | undefined
+  aliments: Aliments[] = []
+  groups: string[] = []
   porciones: { [key: string]: number } = {
     verduras: 0,
     frutas: 0,
@@ -68,19 +70,24 @@ export class NewDietComponent {
       activityLevel: [Validators.required]
     })
     this.formCalculoPorciones = this._form.group({
-      totalKcal: [1500, Validators.required],
-      porcentajeHco: [60, Validators.required],
-      porcentajeLip: [20, Validators.required],
-      porcentajePro: [20, Validators.required]
+      totalKcal: [0, Validators.required],
+      porcentajeHco: [0, Validators.required],
+      porcentajeLip: [0, Validators.required],
+      porcentajePro: [0, Validators.required]
     }, { validator: this.percentageSumValidator })
-    this.provisional()
+    this.formFinishDietPlan = this._form.group({
+      id: 0,
+      goal: ['', Validators.required],
+      comment: ['', Validators.required]
+    })
     this.getAliments()
   }
 
-  getAliments(){
+  getAliments() {
     this.nutriService.getAliments().pipe()
-      .subscribe((data:Aliments) => {
+      .subscribe((data: Aliments[]) => {
         this.aliments = data
+        this.buildGruops()
       })
   }
 
@@ -114,28 +121,41 @@ export class NewDietComponent {
   }
 
   crearPlanDieta() {
-    console.log(this.emailPaciente)
     if (this.emailPaciente) {
       this.nutriService.newPlanDiet(this.emailPaciente).pipe()
         .subscribe((data: any) => {
           this.childModal?.hide()
           this.showMessageSucces('Genere el plan de dieta para el paciente')
           this.idPlanDieta = data
-          this.nutriService.getDietByPlan(this.idPlanDieta).pipe()
-            .subscribe((data: DietByidPlan) => {
-              this.planDieta = data
-            })
+          this.getDietPlan();
           this.emailPaciente = ''
           this.showDietPlan = true
         })
     }
   }
 
-  provisional() {
+  getDietPlan() {
     this.nutriService.getDietByPlan(this.idPlanDieta).pipe()
       .subscribe((data: DietByidPlan) => {
         this.planDieta = data
+        this.idPlanDieta = data.id
+        this.formFinishDietPlan.patchValue({
+          goal: this.planDieta.goal ? this.planDieta.goal : '',
+          comment: this.planDieta.comment ? this.planDieta.comment : ''
+        })
       })
+  }
+
+  finishDietPlan() {
+    if (this.formFinishDietPlan.valid) {
+      this.formFinishDietPlan.patchValue({
+        id: this.idPlanDieta
+      })
+      this.nutriService.finishDietPlan(this.formFinishDietPlan.value).pipe()
+        .subscribe((data) => {
+          this.showMessageSucces(data)
+        })
+    }
   }
 
   percentageSumValidator(control: AbstractControl): ValidationErrors | null {
@@ -156,6 +176,18 @@ export class NewDietComponent {
       .replace(/^./, str => str.toUpperCase())
       .replace(/\b[a-z]/g, match => match.toUpperCase())
       .trim();
+  }
+
+  transformString(alimentos: string | any): string[] | any {
+    if (alimentos) {
+      return alimentos.split('. ').filter((item: any) => item);
+    }
+  }
+
+  buildGruops() {
+    const auxGroups: Set<string> = new Set()
+    this.aliments.forEach(aliment => auxGroups.add(aliment.group))
+    this.groups = Array.from(auxGroups)
   }
 
   showMessageSucces(message: string) {

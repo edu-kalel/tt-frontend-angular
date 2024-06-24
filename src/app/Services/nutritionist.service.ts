@@ -91,11 +91,27 @@ export class NutritionistService {
     return this.http.get<DietByidPlan>(endpoint + '/nutri/get-diet-plan-by-id/' + idPlanDieta, {headers})
   }
 
-  getAliments(): Observable<Aliments> {
+  getAliments(): Observable<Aliments[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
 
-    return this.http.get<Aliments>(endpoint + '/nutri/diet-plan/get-all-aliments', {headers})
+    return this.http.get<Aliments[]>(endpoint + '/nutri/diet-plan/get-all-aliments', {headers})
+  }
+
+  addMealsToDietPlan(mealsPlan: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.post(endpoint + '/nutri/diet-plan/add-meals', mealsPlan, {headers, responseType: 'text'})
+  }
+
+  finishDietPlan(dietPlan: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    return this.http.put(endpoint + '/nutri/diet-plan/finish', dietPlan, {headers, responseType: 'text'})
   }
 }

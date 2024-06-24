@@ -292,7 +292,6 @@ export class NewUserComponent implements OnChanges {
 
     registerStaff() {
         if (this.formRegister.valid) {
-            console.log(this.formRegister.value)
             this.adminService.newUser(this.endpoint, this.formRegister.value).subscribe(
                 (data) => {
                     if (this.parentModal) this.parentModal.hide()

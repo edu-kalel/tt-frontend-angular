@@ -95,7 +95,6 @@ export class NewAppointMentCompoement {
                 starting_time: this.formNewAppointment.get('starting_time')?.value,
                 ending_time: this.formNewAppointment.get('ending_date')?.value,
             }
-            console.log(newAppointment)
             this.nutriService.newAppointment(newAppointment).
                 pipe(
                     catchError((error) => {

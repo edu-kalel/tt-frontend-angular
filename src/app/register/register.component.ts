@@ -38,7 +38,6 @@ export class RegisterComponent {
 
   register() {
     if(this.formRegister.valid) {
-      console.log(this.formRegister.value)
       this.autService.register(this.formRegister.value).subscribe(
         (data) => {
           this.showMessageSucces('Registro exitoso');
