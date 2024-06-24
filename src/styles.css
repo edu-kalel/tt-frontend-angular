@@ -66,8 +66,7 @@
 .input-container input[type="date"]:focus~.label,
 .input-container input[type="date"]:valid~.label,
 .input-container input[type="number"]:focus~.label,
-.input-container input[type="number"]:valid~.label
-.input-container select:valid~.underline {
+.input-container input[type="number"]:valid~.label .input-container select:valid~.underline {
     transform: scaleX(1);
 }
 
@@ -269,4 +268,38 @@
         transform: scale(1.8);
         opacity: 0
     }
+}
+
+.new-btn {
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee4b;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+}
+
+.new-btn>svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all 0.4s ease-in;
+}
+
+.new-btn:hover>svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+.new-btn:hover {
+    box-shadow: 9px 9px 33px #725AC1, -9px -9px 33px #ffffff;
+    transform: translateY(-2px);
 }

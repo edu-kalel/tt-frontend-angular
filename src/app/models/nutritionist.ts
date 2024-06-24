@@ -64,7 +64,7 @@ export interface Aliments {
     carbs: string,
     fats: string,
     proteins: string,
-    cantidad?: number
+    cantidad?: number | undefined
 }
 
 export interface Meal {

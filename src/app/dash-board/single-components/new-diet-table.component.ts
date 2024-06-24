@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Aliments, Meal } from "src/app/models";
 import { NutritionistService } from "src/app/Services/nutritionist.service";
@@ -128,6 +128,7 @@ export class NewDietTableComponent {
                 .subscribe((data) => {
                     this.meals = []
                     this.showMessageSucces('Alimentos agregados correctamente')
+                    this.aliments.forEach(aliment => aliment.cantidad = undefined)
                     this.actualizarPlan.emit()
                     this.parentModal?.hide()
                 })
