@@ -46,12 +46,14 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>Fecha</th>
                                         <th>Peso (Kg)</th>
                                         <th>Estatura (cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
                                     <tr *ngFor="let record of patientRecords">
+                                        <td>{{convertToDDMMYY(record.date)}}</td>
                                         <td>{{record.patientWeight}}</td>
                                         <td>{{record.patientHeight}}</td>
                                     </tr>
@@ -331,7 +333,8 @@
                                 </div>
                                 <div class="col col-6">
                                     <div class="input-container">
-                                        <input type="text" id="comment" [value]="planDieta?.comment" required="" readonly>
+                                        <input type="text" id="comment" [value]="planDieta?.comment" required=""
+                                            readonly>
                                         <label for="comment" class="label">Comentarios: </label>
                                         <div class="underline"></div>
                                     </div>

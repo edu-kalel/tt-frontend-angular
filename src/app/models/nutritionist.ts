@@ -82,4 +82,5 @@ export interface PatientRecord {
     id: number
     patientHeight: number
     patientWeight: number
+    date: string
 }

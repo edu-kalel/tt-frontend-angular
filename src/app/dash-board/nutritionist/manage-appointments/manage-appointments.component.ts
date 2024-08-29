@@ -17,12 +17,12 @@ export class ManageAppointmentsComponent {
   appointmentsToday: AppointmentBasicInfo[] = []
   modo: number = 2
   tipoUser: number = 0
-  nutriCards: NutriCards [] | undefined
+  nutriCards: NutriCards[] | undefined
 
   constructor(
     private nutritionistService: NutritionistService,
     private authService: AuthServiceService
-  ) { 
+  ) {
     this.fecha = new Date()
   }
 
@@ -41,7 +41,7 @@ export class ManageAppointmentsComponent {
 
   setParameters() {
     const role = this.authService.getRole()
-    this.tipoUser = role == 'NUTRITIONIST' ||  role == 'NUTRITIONIST_ADMIN' ? 3 : 2
+    this.tipoUser = role == 'NUTRITIONIST' || role == 'NUTRITIONIST_ADMIN' ? 3 : 2
   }
 
   getCards() {
@@ -59,7 +59,7 @@ export class ManageAppointmentsComponent {
       showCancelButton: true,
       confirmButtonColor: "#725AC1",
       cancelButtonColor: "#6E1300",
-      confirmButtonText: "Confirmar", 
+      confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -88,13 +88,18 @@ export class ManageAppointmentsComponent {
               return throwError(() => new Error("Login failed"));
             })
           ). //Obtiene los errores de la solicitud
-              subscribe((data: string) => {
-                this.showLoadingMessage(false, '');
-                this.showMessageSucces(data);
-                this.getTodayAppointments();
-              })
-        }
+          subscribe((data: string) => {
+            this.showLoadingMessage(false, '');
+            this.showMessageSucces(data);
+            this.getTodayAppointments();
+          })
+      }
     });
+  }
+
+  reloadInfo() {
+    this.getTodayAppointments()
+    this.getCards()
   }
 
   convertTo24HourFormat(dateTime: string): string {
